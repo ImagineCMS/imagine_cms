@@ -1,0 +1,36 @@
+{
+  "repository": {},
+  "license": "Apache-2.0",
+  "scripts": {
+    "deploy": "webpack --mode production",
+    "watch": "webpack --mode development --watch"
+  },
+  "dependencies": {
+    "phoenix": "file:../deps/phoenix",
+    "phoenix_html": "file:../deps/phoenix_html",
+    "phoenix_live_view": "file:../deps/phoenix_live_view"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "autoprefixer": "^9.8.6",
+    "babel-loader": "^8.1.0",
+    "codemirror": "^5.57.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^4.2.2",
+    "expose-loader": "^1.0.0",
+    "file-loader": "^6.1.0",
+    "fomantic-ui": "^2.8.6",
+    "jquery": "^3.5.1",
+    "mini-css-extract-plugin": "^0.11.0",
+    "moment": "^2.27.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "postcss-loader": "^3.0.0",
+    "sass": "^1.26.10",
+    "sass-loader": "^10.0.2",
+    "slideout": "^1.0.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}

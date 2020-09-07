@@ -1,0 +1,22 @@
+<%%= form_for @changeset, @action, [class: "ui form" <> (if @changeset.action, do: " warning error", else: "")], fn f -> %>
+  <%%= if @changeset.action do %>
+    <div class="ui warning message">
+      <p>Something went wrong, please check the errors below.</p>
+    </div>
+  <%% end %>
+<%= for {label, input, error} <- inputs, input do %>
+  <div class="field">
+    <%= label %>
+    <%= input %>
+    <%= error %>
+  </div>
+<% end %>
+  <div class="actions">
+    <%%= submit "Save", class: "ui primary button" %>
+    <%%= if assigns[:<%= schema.singular %>] do %>
+      <%%= link "Cancel", to: Routes.<%= schema.singular %>_path(@conn, :show, @<%= schema.singular %>), class: "ui button" %>
+    <%% else %>
+      <%%= link "Cancel", to: Routes.<%= schema.singular %>_path(@conn, :index), class: "ui button" %>
+    <%% end %>
+  </div>
+<%% end %>

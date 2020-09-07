@@ -1,0 +1,55 @@
+<%= form_for @changeset, @action, [id: "imagine-template-form", class: "ui form" <> (if @changeset.action, do: " warning error", else: "")], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="ui warning message">
+      <p>Something went wrong, please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= label f, :name %>
+    <%= text_input f, :name %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="field">
+    <%= label f, :description %>
+    <%= text_input f, :description %>
+    <%= error_tag f, :description %>
+  </div>
+
+  <div class="field">
+    <%= label f, :content_eex, "Content" %>
+    <%= textarea f, :content_eex %>
+    <%= error_tag f, :content_eex %>
+  </div>
+
+  <div class="actions">
+    <%= submit "Save", class: "ui primary button" %>
+    <%= if assigns[:cms_snippet] do %>
+      <%= link "Cancel", to: Routes.cms_snippet_path(@conn, :show, @cms_snippet), class: "ui button" %>
+    <% else %>
+      <%= link "Cancel", to: Routes.cms_snippet_path(@conn, :index), class: "ui button" %>
+    <% end %>
+  </div>
+<% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    //   scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i, mode: null},
+    //                 {matches: /(text|application)\/(x-)?vb(a|script)/i, mode: "vbscript"}]
+    var editor = CodeMirror.fromTextArea(document.getElementById("imagine-template-form_content_eex"), {
+      mode: 'htmlmixed',
+      selectionPointer: true,
+      lineNumbers: true,
+      viewportMargin: Infinity,
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code == 'KeyS' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      document.getElementById('imagine-template-form').submit();
+      return false;
+    }
+  });
+</script>

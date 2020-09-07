@@ -1,0 +1,16 @@
+<h1>Imagine CMS Start Page</h1>
+
+<ul>
+  <li><%= link "Pages", to: Routes.cms_page_path(@conn, :index) %></li>
+  <li><%= link "Templates", to: Routes.cms_template_path(@conn, :index) %></li>
+  <li><%= link "Snippets", to: Routes.cms_snippet_path(@conn, :index) %></li>
+  <li><%= link "Users", to: Routes.user_path(@conn, :index) %></li>
+</ul>
+
+<ul>
+  <li><%= link "View Site", to: "/" %></li>
+</ul>
+
+<ul>
+  <li><%= link "Account", to: Routes.account_path(@conn, :edit) %></li>
+</ul>

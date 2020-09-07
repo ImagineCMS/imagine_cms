@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+
+    <title><%= assigns[:page_title] && "#{assigns[:page_title]} < " %>Manage &lt; Imagine CMS</title>
+
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/manage.css") %>"/>
+    <script src="<%= Routes.static_path(@conn, "/js/manage.js") %>" defer></script>
+  </head>
+
+  <body id="imagine-app" class="semantic-ui">
+    <nav role="navigation" class="ui stackable inverted fixed main menu mobile hidden">
+      <%= link "Imagine CMS", to: "/manage", class: "header item" %>
+
+      <%= if assigns[:current_user] do %>
+        <%= link "Pages", to: Routes.cms_page_path(@conn, :index), class: "item" %>
+        <%= link "Templates", to: Routes.cms_template_path(@conn, :index), class: "item" %>
+        <%= link "Snippets", to: Routes.cms_snippet_path(@conn, :index), class: "item" %>
+        <%= link "Users", to: Routes.user_path(@conn, :index), class: "item" %>
+      <% end %>
+
+      <div class="right menu">
+        <%= if current_user = assigns[:current_user] do %>
+          <a href="" class="item hw_changelog">Updates</a>
+          <a href="/" class="item">View Site</a>
+
+          <div class="ui simple dropdown item">
+            <%= Imagine.Accounts.User.name(current_user) %>
+            <i class="dropdown icon"></i>
+            <div class="ui menu">
+              <%= link "Account", to: Routes.account_path(@conn, :edit), class: "item" %>
+              <%= link "Log out", to: Routes.auth_path(@conn, :handle_logout), method: :delete, class: "item" %>
+            </div>
+          </div>
+        <% else %>
+          <a href="/" class="item">View Site</a>
+          <%= link "Log in", to: Routes.auth_path(@conn, :login), class: "item" %>
+        <% end %>
+      </div>
+    </nav>
+
+    <!-- mobile menu -->
+    <div id="mobile-menu" class="slideout-menu slideout-menu-left">
+      <div class="ui inverted vertical menu">
+        <%= link "Imagine CMS", to: "/manage", class: "item" %>
+        <div class="item"></div>
+        <%= if assigns[:current_user] do %>
+          <%= link "Pages", to: Routes.cms_page_path(@conn, :index), class: "item" %>
+          <%= link "Templates", to: Routes.cms_template_path(@conn, :index), class: "item" %>
+          <%= link "Snippets", to: Routes.cms_snippet_path(@conn, :index), class: "item" %>
+          <%= link "Users", to: Routes.user_path(@conn, :index), class: "item" %>
+          <div class="item"></div>
+          <a href="" class="item hw_changelog">Updates</a>
+          <a href="/" class="item">View Site</a>
+          <div class="item"></div>
+          <%= link "Account", to: Routes.account_path(@conn, :edit), class: "item" %>
+          <%= link "Log out", to: Routes.auth_path(@conn, :handle_logout), method: :delete, class: "item" %>
+        <% else %>
+          <a href="/" class="item">View Site</a>
+          <%= link "Log in", to: Routes.auth_path(@conn, :login), class: "item" %>
+        <% end %>
+      </div>
+    </div>
+    <div id="panel" class="panel slideout-panel slideout-panel-left">
+      <div class="ui mobile only">
+  			<div class="ui inverted menu">
+  				<a class="item mobile-menu-toggle"><i class="bars icon"></i></a>
+  			</div>
+      </div>
+      <div class="mobile hidden" style="height: 40px;"></div>
+
+      <%= @inner_content %>
+
+      <footer class="ui inverted segment">
+        <div id="build-info" class="ui container">
+          Imagine <%= Imagine.Config.version() %>
+          (<%= Imagine.Config.build_number() %>) &ndash;
+          <%= Timex.format! Imagine.Config.release_built_at(), "{Mfull} {D}, {YYYY}" %>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,329 @@
+# Imagine.Accounts.User
+msgid "Imagine.Accounts.User.id"
+msgstr ""
+
+msgid "Imagine.Accounts.User.username"
+msgstr ""
+
+msgid "Imagine.Accounts.User.password_hash"
+msgstr ""
+
+msgid "Imagine.Accounts.User.first_name"
+msgstr ""
+
+msgid "Imagine.Accounts.User.last_name"
+msgstr ""
+
+msgid "Imagine.Accounts.User.email"
+msgstr ""
+
+msgid "Imagine.Accounts.User.dynamic_fields"
+msgstr ""
+
+msgid "Imagine.Accounts.User.active"
+msgstr ""
+
+msgid "Imagine.Accounts.User.is_superuser"
+msgstr ""
+
+msgid "Imagine.Accounts.User.created_on"
+msgstr ""
+
+msgid "Imagine.Accounts.User.updated_on"
+msgstr ""
+
+# Imagine.CmsPages.CmsPage
+msgid "Imagine.CmsPages.CmsPage.id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.version"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.cms_template_id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.cms_template_version"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.parent_id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.path"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.name"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.title"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.published_version"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.published_date"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.article_date"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.article_end_date"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.expiration_date"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.expires"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.summary"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.html_head"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.thumbnail_path"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.feature_image_path"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.redirect_enabled"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.redirect_to"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.position"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.comment_count"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.search_index"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.updated_by"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.updated_by_username"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.created_on"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPage.updated_on"
+msgstr ""
+
+# Imagine.CmsPages.CmsPageObject
+msgid "Imagine.CmsPages.CmsPageObject.id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageObject.cms_page_id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageObject.cms_page_version"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageObject.name"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageObject.obj_type"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageObject.content"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageObject.options"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageObject.created_on"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageObject.updated_on"
+msgstr ""
+
+# Imagine.CmsPages.CmsPageTag
+msgid "Imagine.CmsPages.CmsPageTag.id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageTag.cms_page_id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageTag.name"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageTag.created_on"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageTag.updated_on"
+msgstr ""
+
+# Imagine.CmsPages.CmsPageVersion
+msgid "Imagine.CmsPages.CmsPageVersion.id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.article_date"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.article_end_date"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.cms_page_id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.cms_template_id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.cms_template_version"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.expiration_date"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.expires"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.feature_image_path"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.html_head"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.name"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.parent_id"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.path"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.position"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.published_date"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.published_version"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.redirect_enabled"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.redirect_to"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.search_index"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.summary"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.thumbnail_path"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.title"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.updated_by"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.updated_by_username"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.version"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.inserted_at"
+msgstr ""
+
+msgid "Imagine.CmsPages.CmsPageVersion.updated_at"
+msgstr ""
+
+# Imagine.CmsTemplates.CmsSnippet
+msgid "Imagine.CmsTemplates.CmsSnippet.id"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippet.content"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippet.name"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippet.version"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippet.inserted_at"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippet.updated_at"
+msgstr ""
+
+# Imagine.CmsTemplates.CmsSnippetVersion
+msgid "Imagine.CmsTemplates.CmsSnippetVersion.id"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippetVersion.cms_snippet_id"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippetVersion.content"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippetVersion.name"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippetVersion.version"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippetVersion.inserted_at"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsSnippetVersion.updated_at"
+msgstr ""
+
+# Imagine.CmsTemplates.CmsTemplate
+msgid "Imagine.CmsTemplates.CmsTemplate.id"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplate.content"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplate.name"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplate.options_json"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplate.version"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplate.created_on"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplate.updated_on"
+msgstr ""
+
+# Imagine.CmsTemplates.CmsTemplateVersion
+msgid "Imagine.CmsTemplates.CmsTemplateVersion.id"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplateVersion.cms_template_id"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplateVersion.content"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplateVersion.name"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplateVersion.options_json"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplateVersion.version"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplateVersion.inserted_at"
+msgstr ""
+
+msgid "Imagine.CmsTemplates.CmsTemplateVersion.updated_at"
+msgstr ""

@@ -1,0 +1,43 @@
+<h1>Pages</h1>
+
+<%= live_render(@conn, ImagineWeb.Live.CmsPage.Browser, session: %{
+      "current_user" => @current_user,
+      "cms_page_id" => Plug.Conn.get_session(@conn, :cms_page_id),
+      "csrf_token" => Phoenix.Controller.get_csrf_token()
+    }) %>
+
+
+<h3>Recently Modified</h3>
+
+<table class="ui table">
+  <thead class="mobile hidden">
+    <tr>
+      <th>Title / Path</th>
+      <th>Article date</th>
+      <th>Template</th>
+      <th>Version</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for cms_page <- @cms_pages do %>
+    <tr>
+      <td>
+        <%= link Crutches.String.truncate(cms_page.title, 50), to: Routes.cms_page_path(@conn, :show, cms_page) %>
+        <small class="mobile hidden">
+          <br><%= cms_page.path %>
+          <%= if cms_page.redirect_enabled, do: "(Redirect)" %>
+        </small>
+      </td>
+      <td class="mobile hidden"><%= if cms_page.article_date, do: Timex.format!(cms_page.article_date, "{YYYY}-{0M}-{0D}") %></td>
+      <td class="mobile hidden"><%= link cms_page.cms_template.name, to: Routes.cms_template_path(@conn, :show, cms_page.cms_template_id) %></td>
+      <td class="mobile hidden"><%= cms_page.version %></td>
+      <td class="mobile hidden">
+        <%= link "Edit", to: Routes.cms_page_path(@conn, :edit_content, cms_page) %><br>
+        <%#= link "Properties", to: Routes.cms_page_path(@conn, :edit, cms_page) %><!-- <br> -->
+        <%= link "Preview", to: "/#{cms_page.path}" %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

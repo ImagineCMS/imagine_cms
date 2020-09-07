@@ -1,0 +1,36 @@
+<h1><%= link "Templates", to: Routes.cms_template_path(@conn, :index) %> / <%= @cms_template.name %></h1>
+
+<div class="button-bar">
+  <%= link raw(~s(<i class="pencil alternate icon"></i> Edit)), to: Routes.cms_template_path(@conn, :edit, @cms_template), class: "ui icon labeled button" %>
+  <%= link raw(~s(<i class="list icon"></i> Versions)), to: Routes.cms_template_version_path(@conn, :index, @cms_template), class: "ui icon labeled button" %>
+  <%= link raw(~s(<i class="trash alternate outline icon"></i> Delete)), to: Routes.cms_template_path(@conn, :delete, @cms_template), method: :delete, data: [confirm: "Are you sure you want to delete this user? There is no undo."], class: "ui icon labeled negative basic button" %>
+</div>
+
+<table class="ui summary table">
+
+  <tr>
+    <td><strong>Name:</strong></td>
+    <td><%= @cms_template.name %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Description:</strong></td>
+    <td><%= @cms_template.description %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Content:</strong></td>
+    <td><%= Crutches.String.truncate @cms_template.content_eex, 100 %></td>
+  </tr>
+
+  <!-- <tr>
+    <td><strong>Options json:</strong></td>
+     <td><%#= @cms_template.options_json %></td>
+  </tr> -->
+
+  <tr>
+    <td><strong>Version:</strong></td>
+    <td><%= @cms_template.version %></td>
+  </tr>
+
+</table>

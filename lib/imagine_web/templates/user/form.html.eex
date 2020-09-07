@@ -1,0 +1,61 @@
+<%= form_for @changeset, @action, [class: "ui form" <> (if @changeset.action, do: " warning error", else: "")], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="ui warning message">
+      <p>Something went wrong, please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="fields">
+    <div class="field">
+      <%= label f, :username %>
+      <%= text_input f, :username %>
+      <%= error_tag f, :username %>
+    </div>
+
+    <div class="field">
+      <%= label f, :password %>
+      <%= password_input f, :password %>
+      <%= error_tag f, :password %>
+    </div>
+
+    <div class="field">
+      <%= label f, :password_confirmation %>
+      <%= password_input f, :password_confirmation %>
+      <%= error_tag f, :password_confirmation %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= label f, :first_name %>
+    <%= text_input f, :first_name %>
+    <%= error_tag f, :first_name %>
+  </div>
+
+  <div class="field">
+    <%= label f, :last_name %>
+    <%= text_input f, :last_name %>
+    <%= error_tag f, :last_name %>
+  </div>
+
+  <div class="field">
+    <%= label f, :email %>
+    <%= text_input f, :email %>
+    <%= error_tag f, :email %>
+  </div>
+
+  <div class="inline field">
+    <div class="ui toggle checkbox">
+      <%= checkbox f, :active %>
+      <%= label f, :active %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= submit "Save", class: "ui primary button" %>
+    <%= if assigns[:user] do %>
+      <%= link "Cancel", to: Routes.user_path(@conn, :show, @user), class: "ui button" %>
+    <% else %>
+      <%= link "Cancel", to: Routes.user_path(@conn, :index), class: "ui button" %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,18 @@
+<div id="Imagine-Edit-Toolbar" class="Imagine-Toolbar" style="display: none;">
+  <div class="Imagine-Toolbar-Content">
+    <a href="#" id="Imagine-Save-Page-Content-Button">Save</a>
+    <a href="/<%= [@cms_page.path] ++ (if @conn.params["version"], do: ["version", @conn.params["version"]], else: []) |> Enum.reject(fn s -> s == "" end) |> Enum.join("/") %>" id="Imagine-Cancel-Edit-Page-Content-Button">Cancel Edit</a>
+  </div>
+  <div id="Imagine-RTE-Toolbar"></div>
+</div>
+
+<form id="Imagine-Edit-Content-Form" action="<%= Routes.cms_page_path(@conn, :update_content, @conn.params["id"]) %>" method="POST">
+  <input type="hidden" value="<%= @csrf_token %>" name="_csrf_token">
+  <input type="hidden" value="<%= @version %>" name="version">
+
+  <%= @output %>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => { Imagine.initEditor(); });
+</script>

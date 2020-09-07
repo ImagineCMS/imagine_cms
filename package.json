@@ -1,0 +1,6 @@
+{
+  "name": "imagine_cms",
+  "license": "Apache-2.0",
+  "main": "./priv/static/js/imagine_cms.js",
+  "style": "./priv/static/js/imagine_cms.css"
+}

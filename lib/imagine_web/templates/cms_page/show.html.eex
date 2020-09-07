@@ -1,0 +1,137 @@
+<h1><%= link "Pages", to: Routes.cms_page_path(@conn, :index) %> / <%= @cms_page.path %></h1>
+
+<div class="button-bar">
+  <%= if @cms_page.discarded_at do %>
+    <%#= link raw(~s(<i class="list alternate outline icon"></i> Properties)), to: Routes.cms_page_path(@conn, :edit, @cms_page), class: "ui icon labeled button" %>
+    <%#= link raw(~s(<i class="desktop icon"></i> Preview)), to: "/#{@cms_page.path}/version/#{@cms_page.version}", class: "ui icon labeled button" %>
+  <% else %>
+    <%= link raw(~s(<i class="pencil alternate icon"></i> Edit)), to: Routes.cms_page_path(@conn, :edit_content, @cms_page), class: "ui icon labeled button" %>
+    <%= link raw(~s(<i class="list alternate outline icon"></i> Properties)), to: Routes.cms_page_path(@conn, :edit, @cms_page), class: "ui icon labeled button" %>
+    <%= link raw(~s(<i class="desktop icon"></i> Preview)), to: "/#{@cms_page.path}", class: "ui icon labeled button" %>
+    <%= link raw(~s(<i class="list icon"></i> Versions)), to: Routes.cms_page_version_path(@conn, :index, @cms_page), class: "ui icon labeled button" %>
+    <%= if @cms_page.path == "" || length(@cms_page.sub_pages) > 0 do %>
+      <%= link raw(~s(<i class="trash alternate outline icon"></i> Trash)), to: "#", title: "This page cannot be moved to Trash.", class: "ui icon labeled disabled basic button" %>
+    <% else %>
+      <%= link raw(~s(<i class="trash alternate outline icon"></i> Trash)), to: Routes.cms_page_path(@conn, :delete, @cms_page), method: :delete, data: [confirm: "Are you sure you want to move this page to Trash?"], class: "ui icon labeled negative basic button" %>
+    <% end %>
+  <% end %>
+</div>
+
+<table class="ui summary table">
+
+  <tr>
+    <td><strong>Version:</strong></td>
+    <td><%= @cms_page.version %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Template:</strong></td>
+    <td><%= @cms_page.cms_template_id %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Template version:</strong></td>
+    <td><%= @cms_page.cms_template_version %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Parent:</strong></td>
+    <td><%= @cms_page.parent_id %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Path:</strong></td>
+    <td><%= @cms_page.path %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Name:</strong></td>
+    <td><%= @cms_page.name %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Title:</strong></td>
+    <td><%= @cms_page.title %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Published version:</strong></td>
+    <td><%= @cms_page.published_version %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Published date:</strong></td>
+    <td><%= @cms_page.published_date %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Article date:</strong></td>
+    <td><%= @cms_page.article_date %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Article end date:</strong></td>
+    <td><%= @cms_page.article_end_date %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Expiration date:</strong></td>
+    <td><%= @cms_page.expiration_date %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Expires:</strong></td>
+    <td><%= @cms_page.expires %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Summary:</strong></td>
+    <td><%= @cms_page.summary %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Html head:</strong></td>
+    <td><%= @cms_page.html_head %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Thumbnail path:</strong></td>
+    <td><%= @cms_page.thumbnail_path %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Feature image path:</strong></td>
+    <td><%= @cms_page.feature_image_path %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Redirect enabled:</strong></td>
+    <td><%= @cms_page.redirect_enabled %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Redirect to:</strong></td>
+    <td><%= @cms_page.redirect_to %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Position:</strong></td>
+    <td><%= @cms_page.position %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Search index:</strong></td>
+    <td><%= @cms_page.search_index %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Updated by:</strong></td>
+    <td><%= @cms_page.updated_by %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Updated by username:</strong></td>
+    <td><%= @cms_page.updated_by_username %></td>
+  </tr>
+
+</table>

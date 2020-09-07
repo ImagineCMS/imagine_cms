@@ -1,0 +1,18 @@
+<h1><%= link "Templates", to: Routes.cms_template_path(@conn, :index) %> / <%= link @cms_template.name, to: Routes.cms_template_path(@conn, :show, @cms_template) %> / Versions</h1>
+
+<table class="ui table">
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= for cms_template_version <- Enum.reverse(@cms_template_versions) do %>
+    <tr>
+      <td><%= link "Version #{cms_template_version.version}", to: Routes.cms_template_version_path(@conn, :show, @cms_template, cms_template_version) %></td>
+      <td><%= cms_template_version.updated_on %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

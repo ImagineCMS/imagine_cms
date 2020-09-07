@@ -1,0 +1,28 @@
+<h1><%= link "Pages", to: Routes.cms_page_path(@conn, :index) %> / <%= link @cms_page.path, to: Routes.cms_page_path(@conn, :show, @cms_page) %> / Versions</h1>
+
+<table class="ui table">
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Title</th>
+      <th>Template</th>
+      <th>Published date</th>
+      <th>Article date</th>
+      <th>Redirect to</th>
+      <th>Author</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for cms_page_version <- Enum.reverse(@cms_page_versions) do %>
+    <tr>
+      <td><%= link "Version #{cms_page_version.version}", to: Routes.cms_page_version_path(@conn, :show, @cms_page, cms_page_version) %></td>
+      <td><%= cms_page_version.title %></td>
+      <td><%= link cms_page_version.cms_template.name, to: Routes.cms_template_version_path(@conn, :show, cms_page_version.cms_template_id, cms_page_version.cms_template_version) %></td>
+      <td><%= cms_page_version.published_date %></td>
+      <td><%= cms_page_version.article_date %></td>
+      <td><%= cms_page_version.redirect_to %></td>
+      <td><%= link cms_page_version.updated_by_username, to: Routes.user_path(@conn, :show, cms_page_version.updated_by) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

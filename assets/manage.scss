@@ -1,0 +1,92 @@
+@media only screen and (max-width: 767px) {
+  body#imagine-app {
+    #content-container { min-height: 90vh; }
+    .button-bar {
+      * {
+        width: 32px;
+        height: 32px;
+        padding: 8px 0 0 !important;
+        color: transparent;
+        overflow: hidden;
+        i { color: initial; margin: 0; }
+      }
+      .negative { margin-left: 10px; }
+    }
+  }
+}
+
+body#imagine-app {
+  #content-container { padding-top: 10px; min-height: 80vh; }
+  #panel .mobile.only .menu { border-radius: 0; }
+  footer.inverted.segment { border-radius: 0; }
+
+  #HW_badge_cont { height: auto; }
+  #HW_badge { top: -7px; left: 4px; }
+
+  .button-bar {
+    form { display: inline-block; }
+    * { margin-bottom: 4px; }
+    margin-bottom: 6px;
+  }
+
+  footer { margin-top: 30px; }
+
+  form .actions {
+    background-color: #eee;
+    position: sticky;
+    bottom: 0;
+    padding: 10px 10px;
+    
+    /* place above checkbox sliders, codemirror line numbers, etc. */
+    z-index: 10; 
+  }
+
+  #Imagine-Properties-Modal {
+    .close { top: 0.25rem; right: 0.15rem; }
+    .header { line-height: 1.1; padding: 0.9rem 1.5rem; }
+    .content { max-height: 67vh; overflow: scroll; }
+    .fields.flex {
+      .field { flex: 1 1 auto; }
+    }
+  }
+
+  .CodeMirror {
+    height: auto;
+  }
+
+  .ui.table { margin: 1em 0; }
+  table.summary.table { max-width: 450px; }
+
+  .ui.toast-container.top.right {
+    top: 50px !important;
+    right: 10px !important;
+  }
+
+  .page-browser {
+    margin: 0 0 20px;
+
+    .track { display: flex; }
+
+    .column {
+      flex: 0 0 auto;
+      box-sizing: border-box;
+      width: 220px; min-width: 180px; max-width: 60vw; resize: horizontal;
+      min-height: 250px;
+      max-height: 60vh;
+      border: 1px solid #ccc;
+      border-width: 1px 1px 1px 0;
+      overflow: scroll;
+
+      &:first-child { border-width: 1px; }
+    }
+
+    .list .item {
+      border-radius: 0;
+
+      &.selected { background-color: #e0e0e0; }
+      &.offline { opacity: 0.65; }
+      .header, .description { width: calc(100% - 1.55em); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    }
+  }
+
+}

@@ -1,0 +1,139 @@
+<%
+  is_persisted = Ecto.get_meta(@changeset.data, :state) == :loaded
+%>
+
+<%= form_for @changeset, @action, [class: "ui form" <> (if @changeset.action, do: " warning error", else: "")], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="ui warning message">
+      <p>Something went wrong, please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= label f, :name %>
+    <%= text_input f, :name, disabled: CmsPage.is_home_page?(@cms_page) %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="field">
+    <%= label f, :title %>
+    <%= text_input f, :title %>
+    <%= error_tag f, :title %>
+  </div>
+
+  <div class="field">
+    <%= label f, :cms_template_id %>
+    <%= select f, :cms_template_id, cms_template_select_options(@cms_templates), class: "ui dropdown" %>
+    <%= error_tag f, :cms_template_id %>
+  </div>
+
+  <%= unless CmsPage.is_home_page?(@cms_page) do %>
+  <div class="field">
+    <%= label f, :parent_id %>
+    <%= select f, :parent_id, cms_page_select_options(@cms_pages, @changeset.data), class: "ui search dropdown" %>
+    <%= error_tag f, :parent_id %>
+  </div>
+  <% end %>
+
+  <%= if is_persisted do %>
+  <div class="field">
+    <%= label f, :published_version %>
+    <%= select f, :published_version, cms_page_version_select_options(@cms_page.versions) %>
+    <%= error_tag f, :published_version %>
+  </div>
+  <% end %>
+
+  <div class="fields">
+    <div class="field">
+      <%= label f, :published_date %>
+      <%= date_input f, :published_date, value: if(@cms_page.published_date, do: Timex.to_date(@cms_page.published_date)) %>
+      <%= error_tag f, :published_date %>
+    </div>
+
+    <div class="field">
+      <%= label f, :article_date %>
+      <%= date_input f, :article_date, value: if(@cms_page.article_date, do: Timex.to_date(@cms_page.article_date)) %>
+      <%= error_tag f, :article_date %>
+    </div>
+
+    <div class="field">
+      <%= label f, :article_end_date %>
+      <%= date_input f, :article_end_date, value: if(@cms_page.article_end_date, do: Timex.to_date(@cms_page.article_end_date)) %>
+      <%= error_tag f, :article_end_date %>
+    </div>
+
+    <div class="field">
+      <%= label f, :expiration_date %>
+      <%= date_input f, :expiration_date, value: if(@cms_page.expiration_date, do: Timex.to_date(@cms_page.expiration_date)) %>
+      <%= error_tag f, :expiration_date %>
+    </div>
+  </div>
+
+  <div class="inline field">
+    <div class="ui toggle checkbox">
+      <%= checkbox f, :expires %>
+      <%= label f, :expires %>
+      <%= error_tag f, :expires %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= label f, :summary %>
+    <%= textarea f, :summary %>
+    <%= error_tag f, :summary %>
+  </div>
+
+  <div class="field">
+    <%= label f, :html_head %>
+    <%= textarea f, :html_head %>
+    <%= error_tag f, :html_head %>
+  </div>
+
+  <div class="field">
+    <%= label f, :thumbnail_path %>
+    <%= text_input f, :thumbnail_path %>
+    <%= error_tag f, :thumbnail_path %>
+  </div>
+
+  <div class="field">
+    <%= label f, :feature_image_path %>
+    <%= text_input f, :feature_image_path %>
+    <%= error_tag f, :feature_image_path %>
+  </div>
+
+  <div class="fields">
+    <div class="inline field">
+      <div class="ui toggle checkbox">
+        <%= checkbox f, :redirect_enabled %>
+        <%= label f, :redirect_enabled %>
+        <%= error_tag f, :redirect_enabled %>
+      </div>
+      <%= text_input f, :redirect_to, placeholder: "URL" %>
+      <%= error_tag f, :redirect_to %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= label f, :position %>
+    <%= number_input f, :position %>
+    <%= error_tag f, :position %>
+  </div>
+
+  <div class="actions">
+    <%= submit "Save", class: "ui primary button" %>
+    <%= link "Cancel", to: Routes.cms_page_path(@conn, :index), class: "ui button" %>
+  </div>
+<% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    //   scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i, mode: null},
+    //                 {matches: /(text|application)\/(x-)?vb(a|script)/i, mode: "vbscript"}]
+    var editor = CodeMirror.fromTextArea(document.getElementById("cms_page_html_head"), {
+      mode: 'htmlmixed',
+      selectionPointer: true,
+      lineNumbers: true,
+      viewportMargin: Infinity,
+    });
+  });
+</script>

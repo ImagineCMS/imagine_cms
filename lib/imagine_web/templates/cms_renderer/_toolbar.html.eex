@@ -1,0 +1,32 @@
+<%= if @conn.assigns[:current_user] do %>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    <%= if @cms_page do %>
+    Imagine.showViewToolbar(<%= Map.get(@cms_page, :cms_page_id) || @cms_page.id %>, '<%= @cms_page.path %>',
+                            '<%= @display_version_options %>',
+                            '<%= @published_version_options %>');
+    document.getElementById("Imagine-Properties-Save-Button").addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("Imagine-Properties-Form").submit();
+      return false;
+    });
+    <% else %>
+    Imagine.showViewToolbar();
+    <% end %>
+  });
+</script>
+<% end %>
+
+<%= if @cms_page do %>
+<div id="Imagine-Properties-Modal" class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">Properties</div>
+  <div class="content">
+    <%= render ImagineWeb.CmsPageView, "_properties_modal.html", assigns %>
+  </div>
+  <div class="actions">
+    <div id="Imagine-Properties-Save-Button" class="ui primary button">Save</div>
+    <div class="ui cancel button">Cancel</div>
+  </div>
+</div>
+<% end %>

@@ -1,0 +1,30 @@
+<h1><%= link "Templates", to: Routes.cms_template_path(@conn, :index) %> / <%= link @cms_template.name, to: Routes.cms_template_path(@conn, :show, @cms_template) %> / <%= link "Versions", to: Routes.cms_template_version_path(@conn, :index, @cms_template) %> / <%= "Version #{@cms_template_version.version}" %></h1>
+
+<table class="ui summary table">
+  <tr>
+    <td><strong>Name:</strong></td>
+    <td><%= link @cms_template_version.name, to: Routes.cms_template_path(@conn, :show, @cms_template) %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Description:</strong></td>
+    <td><%= @cms_template_version.description %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Content:</strong></td>
+    <td><%= textarea :f, :content_eex, value: @cms_template_version.content_eex %></td>
+  </tr>
+</table>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    var editor = CodeMirror.fromTextArea(document.getElementById("f_content_eex"), {
+      mode: "htmlmixed",
+      selectionPointer: true,
+      lineNumbers: true,
+      viewportMargin: Infinity,
+      readOnly: true
+    });
+  });
+</script>

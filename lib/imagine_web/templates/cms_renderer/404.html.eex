@@ -1,0 +1,3 @@
+<h1>404 Not Found</h1>
+
+<%= render ImagineWeb.CmsRendererView, "_toolbar.html", assigns %>

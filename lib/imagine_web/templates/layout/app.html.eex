@@ -1,0 +1,17 @@
+<main id="content-container" role="main" class="ui container">
+  <%# error messages are persistent %>
+  <%= if err = get_flash(@conn, :error) do %>
+    <p class="ui warning message" role="alert"><%= err %></p>
+  <% end %>
+
+  <%# simple information messages are not %>
+  <%= if info = get_flash(@conn, :notice) || get_flash(@conn, :info) do %>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      $('body').toast({ message: "<%= Phoenix.HTML.javascript_escape info %>", class: 'black', displayTime: 7000 });
+    });
+  </script>
+  <% end %>
+
+  <%= @inner_content %>
+</main>

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+(cd assets && npm install && npm run deploy) && git add priv/static

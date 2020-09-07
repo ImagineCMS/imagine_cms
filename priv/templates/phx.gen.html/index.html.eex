@@ -1,0 +1,28 @@
+<h1><%= schema.human_plural %></h1>
+
+<div class="button-bar">
+  <%%= link raw(~s(<i class="plus icon"></i> New <%= schema.human_singular %>)), to: Routes.<%= schema.route_helper %>_path(@conn, :new), class: "ui labeled icon button" %>
+</div>
+
+<table class="ui table">
+  <thead>
+    <tr>
+      <th>Name</th>
+<%= for {k, _} <- Keyword.delete(schema.attrs, :name) do %>      <th><%= Phoenix.Naming.humanize(Atom.to_string(k)) %></th>
+<% end %>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%%= for <%= schema.singular %> <- @<%= schema.plural %> do %>
+    <tr>
+      <td><%%= link <%= schema.singular %>.name, to: Routes.<%= schema.route_helper %>_path(@conn, :show, <%= schema.singular %>) %></td>
+<%= for {k, _} <- Keyword.delete(schema.attrs, :name) do %>      <td><%%= <%= schema.singular %>.<%= k %> %></td>
+<% end %>
+      <td>
+        <%%= link "Edit", to: Routes.<%= schema.route_helper %>_path(@conn, :edit, <%= schema.singular %>) %>
+      </td>
+    </tr>
+<%% end %>
+  </tbody>
+</table>

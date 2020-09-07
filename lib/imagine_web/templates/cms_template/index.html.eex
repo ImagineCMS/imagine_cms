@@ -1,0 +1,26 @@
+<h1>Templates</h1>
+
+<div class="button-bar">
+  <%= link raw(~s(<i class="plus icon"></i> New Template)), to: Routes.cms_template_path(@conn, :new), class: "ui labeled icon button" %>
+</div>
+
+<table class="ui table">
+  <thead class="mobile hidden">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for cms_template <- @cms_templates do %>
+    <tr>
+      <td><%= link cms_template.name, to: Routes.cms_template_path(@conn, :show, cms_template) %></td>
+      <td class="mobile hidden"><%= cms_template.description %></td>
+      <td class="mobile hidden">
+        <%= link "Edit", to: Routes.cms_template_path(@conn, :edit, cms_template) %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

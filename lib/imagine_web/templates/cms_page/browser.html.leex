@@ -1,0 +1,143 @@
+<% columns = cms_page_browser(@cms_page) %>
+
+<div class="button-bar" style="height: 40px;">
+  <%= if @cms_page.discarded_at do %>
+    <%= if @cms_page.id == "_trash" do %>
+      <%#= link raw(~s(<i class="list alternate outline icon"></i> Properties)), to: "#", class: "ui icon labeled disabled button" %>
+      <%#= link raw(~s(<i class="trash restore icon"></i> Restore)), to: "#", class: "ui icon labeled disabled button" %>
+      <%#= link raw(~s(<i class="exclamation triangle icon"></i> Delete Forever)), to: "#", class: "ui icon labeled negative basic disabled button" %>
+    <% else %>
+      <%= link raw(~s(<i class="list alternate outline icon"></i> Properties)), to: Routes.cms_page_path(@socket, :show, @cms_page), "phx-click": "properties", "phx-value-cms-page-id": @cms_page.id, id: "Imagine-Page-Properties-Button", class: "ui icon labeled button" %>
+      <%#= link raw(~s(<i class="desktop icon"></i> Preview)), to: "/#{@cms_page.path}/version/#{@cms_page.version}", class: "ui icon labeled button" %>
+      <%= link raw(~s(<i class="trash restore icon"></i> Restore)), to: "#", "phx-click": "undelete-page", "phx-value-cms-page-id": @cms_page.id, class: "ui icon labeled button" %>
+      <%= link raw(~s(<i class="exclamation triangle icon"></i> Delete Forever)), to: "#", "phx-click": "destroy-page", "phx-value-cms-page-id": @cms_page.id, data: [confirm: "Are you sure you want to delete this PERMANENTLY? There is no undo."], class: "ui icon labeled negative basic button" %>
+    <% end %>
+  <% else %>
+    <%#= link raw(~s(<i class="plus icon"></i> New Page)), to: Routes.cms_page_path(@socket, :new, parent_id: @cms_page.id), "phx-click": "new-page", "phx-value-cms-page-id": @cms_page.id, class: "ui labeled icon button" %>
+    <%= link raw(~s(<i class="plus icon"></i> New Page)), to: "#", "phx-click": "new-page", "phx-value-cms-page-id": @cms_page.id, class: "ui labeled icon button" %>
+    <%= link raw(~s(<i class="pencil alternate icon"></i> Edit)), to: Routes.cms_page_path(@socket, :edit_content, @cms_page), class: "ui icon labeled button" %>
+    <%= link raw(~s(<i class="list alternate outline icon"></i> Properties)), to: "#", "phx-click": "properties", "phx-value-cms-page-id": @cms_page.id, id: "Imagine-Page-Properties-Button", class: "ui icon labeled button" %>
+    <%= link raw(~s(<i class="desktop icon"></i> Preview)), to: "/#{@cms_page.path}", class: "ui icon labeled button" %>
+    <%#= link raw(~s(<i class="list icon"></i> Versions)), to: Routes.cms_page_version_path(@socket, :index, @cms_page), class: "ui icon labeled button" %>
+    <%= if @cms_page.path == "" || length(@cms_page.sub_pages) > 0 do %>
+      <%= link raw(~s(<i class="trash alternate outline icon"></i> Trash)), to: "#", title: "This page cannot be moved to Trash.", class: "ui icon labeled disabled basic button" %>
+    <% else %>
+      <%= link raw(~s(<i class="trash alternate outline icon"></i> Trash)), to: "#", "phx-click": "delete-page", "phx-value-cms-page-id": @cms_page.id, data: [confirm: "Are you sure you want to move this page to Trash?"], class: "ui icon labeled negative basic button" %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="page-browser">
+  <div class="track" style="width: <%= length(columns) * 200 %>px">
+    <%= for column <- columns do %>
+    <div class="column">
+      <div class="ui selection list">
+        <%= for page <- Enum.sort(column, &(&1.name <= &2.name)) do %>
+          <%= cond do %>
+          <%= page.path == "" -> %>
+            <a href="#" id="cms-page-<%= page.id %>" class="item<%= if @cms_page.id == page.id, do: " selected" %>" phx-click="select-page" phx-value-cms-page-id="<%= page.id %>">
+              <i class="home icon"></i>
+              <div class="content">
+                <div class="header">Home</div>
+                <div class="description">Home Page</div>
+              </div>
+            </a>
+          <% page.id == "_trash" -> %>
+            <a href="#" class="item<%= if @cms_page.id == "_trash", do: " selected" %>" style="margin-top: 20px;" phx-click="select-page" phx-value-cms-page-id="_trash">
+              <i class="trash icon"></i>
+              <div class="content">
+                <div class="header">Trash</div>
+                <div class="description">Deleted Items</div>
+              </div>
+            </a>
+          <% true -> %>
+            <a href="#" id="cms-page-<%= page.id %>" class="item<%= if @cms_page.id == page.id, do: " selected" %><%= if page.published_version == -1, do: " offline" %>" phx-click="select-page" phx-value-cms-page-id="<%= page.id %>">
+            <%= cond do %>
+              <% page.published_version == -1 -> %>
+                <i class="eye slash icon"></i>
+              <% length(page.sub_pages) > 0 -> %>
+                <i class="folder icon"></i>
+              <% page.redirect_enabled -> %>
+                <i class="share icon"></i>
+              <% true -> %>
+                <i class="file icon"></i>
+            <% end %>
+              <div class="content">
+                <div class="header"><%= page.name %></div>
+                <div class="description"><%= page.title %>&nbsp;</div>
+              </div>
+            </a>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <script>
+      setTimeout(() => {
+        $('.page-browser').animate({scrollLeft: $('.page-browser').width() - $('.page-browser').scrollLeft()});
+      });
+    </script>
+    <% end %>
+  </div>
+</div>
+
+<%= if @cms_page.id != "_trash" do %>
+<div id="Imagine-Properties-Modal" class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">Properties</div>
+  <div class="content">
+    <%= @properties_modal %>
+  </div>
+  <div class="actions">
+    <div id="Imagine-Properties-Save-Button" class="ui primary button" onclick="document.getElementById('Imagine-Properties-Form').submit(); return false;">Save</div>
+    <div class="ui cancel button">Cancel</div>
+  </div>
+</div>
+
+<script>
+  // make sure there's always something to update on the page
+  var now = '<%= @timestamp %>';
+
+  var propertiesButtonHandler = (e) => {
+    e.preventDefault();
+
+    window.propertiesButtonClicked = true;
+  }
+
+  var propertiesButtonHandler2 = () => {
+    $('#Imagine-Properties-Modal').modal('show');
+
+    $("select.dropdown").dropdown({ placeholder: false, fullTextSearch: true });
+
+    try {
+      if (window.imaginePropertiesCodemirror) {
+        window.imaginePropertiesCodemirror.setValue($("#cms_page_html_head").val());
+      } else {
+        window.imaginePropertiesCodemirror = CodeMirror.fromTextArea(document.getElementById("cms_page_html_head"), {
+          mode: 'htmlmixed',
+          selectionPointer: true,
+          lineNumbers: true
+        });
+      }
+    } catch (ex) {
+      console.log("Error initializing CodeMirror:", ex)
+    }
+
+    return false;
+  };
+
+  document.addEventListener('phx:update', (e) => {
+    // console.log(e);
+
+    if (window.propertiesButtonClicked) {
+      window.propertiesButtonClicked = false;
+      propertiesButtonHandler2();
+    }
+
+    var btn = document.getElementById("Imagine-Page-Properties-Button");
+    if (btn) {
+      btn.removeEventListener("click", propertiesButtonHandler);
+      btn.addEventListener("click", propertiesButtonHandler);
+    }
+  });
+</script>
+<% end %>

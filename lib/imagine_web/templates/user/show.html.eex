@@ -1,0 +1,43 @@
+<h1><%= link "Users", to: Routes.user_path(@conn, :index) %> / <%= @user.username %></h1>
+
+<div class="button-bar">
+  <%= link raw(~s(<i class="pencil alternate icon"></i> Edit)), to: Routes.user_path(@conn, :edit, @user), class: "ui icon labeled button" %>
+  <%= if @user.active do %>
+    <%= link raw(~s(<i class="thumbs down outline icon"></i> Disable)), to: Routes.user_path(@conn, :disable, @user), method: :post, class: "ui icon labeled button" %>
+  <% else %>
+    <%= link raw(~s(<i class="thumbs up outline icon"></i> Enable)), to: Routes.user_path(@conn, :enable, @user), method: :post, class: "ui icon labeled button" %>
+    <%= link raw(~s(<i class="trash alternate outline icon"></i> Delete)), to: Routes.user_path(@conn, :delete, @user), method: :delete, data: [confirm: "Are you sure you want to delete this user? There is no undo."], class: "ui icon labeled negative basic button" %>
+  <% end %>
+</div>
+
+<table class="ui summary table">
+  <tr>
+    <td><strong>Username:</strong></td>
+    <td><%= @user.username %></td>
+  </tr>
+
+  <tr>
+    <td><strong>First name:</strong></td>
+    <td><%= @user.first_name %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Last name:</strong></td>
+    <td><%= @user.last_name %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Email:</strong></td>
+    <td><%= @user.email %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Active:</strong></td>
+    <td><%= if @user.active, do: "Yes", else: "No" %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Superuser:</strong></td>
+    <td><%= if @user.is_superuser, do: "Yes", else: "No" %></td>
+  </tr>
+</table>

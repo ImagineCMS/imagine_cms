@@ -1,0 +1,33 @@
+<h1>Account</h1>
+
+<%= form_for @changeset, Routes.account_path(@conn, :update), [method: :post, class: "ui form" <> (if @changeset.action, do: " warning error", else: "")], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="ui warning message">
+      <p>Something went wrong, please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= label f, :current_password, "Current Password" %>
+    <%= password_input f, :current_password %>
+    <%= error_tag f, :current_password %>
+  </div>
+
+  <div class="field">
+    <%= label f, :password, "New Password" %>
+    <%= password_input f, :password %>
+    <%= error_tag f, :password %>
+  </div>
+
+  <div class="field">
+    <%= label f, :password_confirmation, "New Password (confirm)" %>
+    <%= password_input f, :password_confirmation %>
+    <%= error_tag f, :password_confirmation %>
+  </div>
+
+  <div class="actions">
+    <%= submit "Update", class: "ui primary button" %>
+    <%= link "Cancel", to: Routes.cms_page_path(@conn, :index), class: "ui button" %>
+  </div>
+
+<% end %>

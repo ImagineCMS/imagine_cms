@@ -1,0 +1,22 @@
+<form action="<%= Routes.auth_path(@conn, :handle_login) %>" method="POST" class="ui form">
+  <input type="hidden" value="<%= @csrf_token %>" name="_csrf_token">
+
+  <table>
+    <tr>
+      <th>Username:</th>
+      <td><%= text_input :user, :username %></td>
+    </tr>
+    <tr>
+      <th>Password:</th>
+      <td><%= password_input :user, :password %></td>
+    </tr>
+    <tr>
+      <th></th>
+      <td>
+        <%= submit "Login", class: "ui primary button" %>
+        <%= link "Cancel", to: "/", class: "ui button" %>
+        <%= hidden_input :system, :return_to, value: assigns[:return_to] %>
+      </td>
+    </tr>
+  </table>
+</form>

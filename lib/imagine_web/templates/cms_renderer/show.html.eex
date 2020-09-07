@@ -1,0 +1,16 @@
+<%= @output %>
+
+<%= if @conn.assigns[:current_user] do %>
+  <%= render ImagineWeb.CmsRendererView, "_toolbar.html", assigns %>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      <%= if info = get_flash(@conn, :notice) || get_flash(@conn, :info) do %>
+        $('body').toast({ message: `<%= info %>`, class: 'grey' });
+      <% end %>
+      <%= if err = get_flash(@conn, :error) do %>
+        $('body').toast({ message: `<%= err %>`, class: 'orange' });
+      <% end %>
+    });
+  </script>
+<% end %>

@@ -1,0 +1,3 @@
+<h1><%= link "Templates", to: Routes.cms_template_path(@conn, :index) %> / New Template</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.cms_template_path(@conn, :create)) %>

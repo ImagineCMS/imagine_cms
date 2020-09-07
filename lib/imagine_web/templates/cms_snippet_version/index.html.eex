@@ -1,0 +1,18 @@
+<h1><%= link "Snippets", to: Routes.cms_snippet_path(@conn, :index) %> / <%= link @cms_snippet.name, to: Routes.cms_snippet_path(@conn, :show, @cms_snippet) %> / Versions</h1>
+
+<table class="ui table">
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%= for cms_snippet_version <- Enum.reverse(@cms_snippet_versions) do %>
+    <tr>
+      <td><%= link "Version #{cms_snippet_version.version}", to: Routes.cms_snippet_version_path(@conn, :show, @cms_snippet, cms_snippet_version) %></td>
+      <td><%= cms_snippet_version.updated_on %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

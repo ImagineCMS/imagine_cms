@@ -1,0 +1,30 @@
+<h1><%= link "Snippets", to: Routes.cms_snippet_path(@conn, :index) %> / <%= link @cms_snippet.name, to: Routes.cms_snippet_path(@conn, :show, @cms_snippet) %> / <%= link "Versions", to: Routes.cms_snippet_version_path(@conn, :index, @cms_snippet) %> / <%= "Version #{@cms_snippet_version.version}" %></h1>
+
+<table class="ui summary table">
+  <tr>
+    <td><strong>Name:</strong></td>
+    <td><%= link @cms_snippet_version.name, to: Routes.cms_snippet_path(@conn, :show, @cms_snippet) %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Description:</strong></td>
+    <td><%= @cms_snippet_version.description %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Content:</strong></td>
+    <td><%= textarea :f, :content_eex, value: @cms_snippet_version.content_eex %></td>
+  </tr>
+</table>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    var editor = CodeMirror.fromTextArea(document.getElementById("f_content_eex"), {
+      mode: "htmlmixed",
+      selectionPointer: true,
+      lineNumbers: true,
+      viewportMargin: Infinity,
+      readOnly: true
+    });
+  });
+</script>

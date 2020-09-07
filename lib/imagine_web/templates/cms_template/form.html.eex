@@ -1,0 +1,121 @@
+<%= form_for @changeset, @action, [id: "imagine-template-form", class: "ui form" <> (if @changeset.action, do: " warning error", else: "")], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="ui warning message">
+      <p>Something went wrong, please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= label f, :name %>
+    <%= text_input f, :name %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="field">
+    <%= label f, :description %>
+    <%= text_input f, :description %>
+    <%= error_tag f, :description %>
+  </div>
+
+  <div class="field">
+    <%= label f, :content_eex, "Content" %>
+    <%= error_tag f, :content_eex %>
+    <%= textarea f, :content_eex %>
+  </div>
+
+  <div class="actions">
+    <%= submit "Save", class: "ui primary button" %>
+    <%= if assigns[:cms_template] do %>
+      <%= link "Cancel", to: Routes.cms_template_path(@conn, :show, @cms_template), class: "ui button" %>
+    <% else %>
+      <%= link "Cancel", to: Routes.cms_template_path(@conn, :index), class: "ui button" %>
+    <% end %>
+  </div>
+<% end %>
+
+<div id="template-reference">
+  <h3>Reference</h3>
+
+<a href="#" class="template-reference-code"><pre>
+<%%= text_editor("Content") %> <i class="clipboard outline icon"></i>
+</pre></a>
+
+<a href="#" class="template-reference-code"><pre>
+<%%= snippet("Top Nav") %> <i class="clipboard outline icon"></i>
+</pre></a>
+
+<a href="#" class="template-reference-code"><pre>
+<%%= page_list("Sidebar News",
+              template: "html", header: "html", footer: "html",
+              folders: "f1,f2", pages: "p1,p2",
+              include_tags: "t1,t2", exclude_tags: "t3,t4", require_tags: "t5,t6",
+              primary_sort_key: :article_date, primary_sort_direction: :desc,
+              item_count: 5, item_offset: 1, use_pagination: 1,
+              empty_message: "Nothing here yet. Check back soon!") %> <i class="clipboard outline icon"></i>
+</pre></a>
+
+<a href="#" class="template-reference-code"><pre>
+<%%= template_option("Caption", :string) %> <i class="clipboard outline icon"></i>
+</pre></a>
+
+<a href="#" class="template-reference-code"><pre>
+<%%= if template_option("Use sidebar?", :checkbox) do %>
+    ...
+<%% else %>
+    ...
+<%% end %> <i class="clipboard outline icon"></i>
+</pre></a>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    //   scriptTypes: [{matches: /\/x-handlebars-template|\/x-mustache/i, mode: null},
+    //                 {matches: /(text|application)\/(x-)?vb(a|script)/i, mode: "vbscript"}]
+    var editor = CodeMirror.fromTextArea(document.getElementById("imagine-template-form_content_eex"), {
+      mode: "htmlmixed",
+      selectionPointer: true,
+      lineNumbers: true,
+      viewportMargin: Infinity,
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code == 'KeyS' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      document.getElementById('imagine-template-form').submit();
+      return false;
+    }
+  });
+
+  let copyCode = async (e) => {
+    e.preventDefault();
+
+    e.target.querySelector("i").className = "clipboard check icon";
+    setTimeout(() => { e.target.querySelector("i").className = "clipboard outline icon"; }, 1000);
+
+    if (!window.isSecureContext) {
+      console.log("Clipboard functions only available over HTTPS.");
+      return;
+    }
+
+    let content = e.target.innerText;
+
+    try {
+      await navigator.clipboard.writeText(content);
+      // clipboardData.setData('text/plain', content);
+      console.log(`${content} copied to clipboard`);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
+  document.querySelectorAll(".template-reference-code").forEach((el) => {
+    el.addEventListener("click", copyCode);
+  });
+</script>
+
+<style>
+  #template-reference { margin-top: 30px; }
+  .template-reference-code { color: #000; }
+  .template-reference-code i { visibility: hidden; }
+  .template-reference-code:hover i { visibility: visible; }
+</style>
