@@ -1,6 +1,7 @@
 # Imagine 6 - Elixir Phoenix-powered CMS
 
-[![Version](https://img.shields.io/github/tag/ImagineCMS/imagine_cms.svg?maxAge=360)](https://github.com/ImagineCMS/imagine_cms/releases/latest)
+[![Hex Version](https://img.shields.io/hexpm/v/imagine_cms.svg)](https://hex.pm/packages/imagine_cms)
+[![Docs](https://img.shields.io/badge/docs-hexpm-blue.svg)](https://hexdocs.pm/imagine_cms)
 [![License](https://img.shields.io/github/license/ImagineCMS/imagine_cms.svg)](https://github.com/ImagineCMS/imagine_cms/blob/main/LICENSE)
 
 A ground-up Elixir rewrite of [Imagine 5](https://github.com/anamba/imagine_cms) (Rails), maintaining database compatibility as much as possible, to the point that both 5 and 6 can be run side-by-side, on the same database, to make the transition as smooth as possible.
