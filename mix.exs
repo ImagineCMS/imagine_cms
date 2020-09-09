@@ -4,7 +4,7 @@ defmodule Imagine.MixProject do
   def project do
     [
       app: :imagine_cms,
-      version: "6.3.1",
+      version: "6.3.2",
       elixir: "~> 1.10",
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
