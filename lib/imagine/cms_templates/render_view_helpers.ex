@@ -53,7 +53,7 @@ defmodule Imagine.CmsTemplates.RenderViewHelpers do
 
     case snippet do
       nil -> "Could not find snippet \"#{obj_name}\" in the database."
-      _ -> CmsTemplate.render(:edit, snippet.content, cms_page, conn)
+      _ -> CmsTemplate.render(:edit, snippet.content_eex, cms_page, conn)
     end
   end
 

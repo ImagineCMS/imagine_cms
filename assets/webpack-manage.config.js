@@ -13,7 +13,6 @@ module.exports = (env, options) => ({
     ]
   },
   entry: {
-    imagine_cms: "./frontend.js",
     manage: "./manage.js"
   },
   output: {
@@ -26,7 +25,7 @@ module.exports = (env, options) => ({
         test: require.resolve('jquery'),
         loader: 'expose-loader',
         options: {
-          exposes: ['$', 'jQuery', 'Imagine'],
+          exposes: ['$', 'jQuery'],
         },
       },
       {

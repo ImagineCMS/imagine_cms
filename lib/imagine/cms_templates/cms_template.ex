@@ -60,12 +60,10 @@ defmodule Imagine.CmsTemplates.CmsTemplate do
         {:error, Map.put(e, :description, e.message)}
 
       e in UndefinedFunctionError ->
-        {:error,
-         e |> Map.put(:description, UndefinedFunctionError.message(e)) |> Map.put(:line, "?")}
+        {:error, Map.merge(e, %{description: UndefinedFunctionError.message(e)})}
 
       e in Protocol.UndefinedError ->
-        {:error,
-         e |> Map.put(:description, Protocol.UndefinedError.message(e)) |> Map.put(:line, "?")}
+        {:error, Map.merge(e, %{description: Protocol.UndefinedError.message(e)})}
     end
   end
 

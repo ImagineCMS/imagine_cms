@@ -1,3 +1,7 @@
 #!/bin/bash
 
-(cd assets && npm install && npm run deploy) && git add priv/static
+(cd assets && \
+  npm install && \
+  npm run deploy -- --config webpack-frontend.config.js && \
+  npm run deploy -- --config webpack-manage.config.js) && \
+  git add priv/static

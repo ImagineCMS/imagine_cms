@@ -26,74 +26,84 @@ import "./semantic.js";
 
 import "./frontend.scss";
 
-if (typeof window.ImagineConfig == 'undefined') {
-  window.ImagineConfig = {
-    editor: 'redactor',
-    redactor: {
-      removeScript: false,
-      toolbarExternal: '#Imagine-RTE-Toolbar',
-      plugins: [],
-      clips: [],
-      imageResizable: true,
-      imagePosition: true,
-      imageUpload: Imagine.imageUploadHandler,
-      fileUpload: Imagine.fileUploadHandler,
-    },
-    article: {
-      plugins: [
-        'blockcode',
-        // 'counter',
-        // 'inlineformat',
-        'reorder',
-        // 'selector',
-      ],
-      toolbar: {
-        sticky: false
-      },
-      image: {
-        upload: (upload, data) => { Imagine.handleUpload(upload, data) },
-        multiple: false
-      },
-      format: {
-        "p": {
-          title: '## format.normal-text ##',
-          params: { tag: 'p', block: 'paragraph' }
-        },
-        "h1": {
-          title: '<span style="font-size: 18px; font-weight: bold;">## format.large-heading ## (H1)</span>',
-          params: { tag: 'h1', block: 'heading' }
-        },
-        "h2": {
-          title: '<span style="font-size: 16px; font-weight: bold;">## format.medium-heading ## (H2)</span>',
-          params: { tag: 'h2', block: 'heading' }
-        },
-        "h3": {
-          title: '<span style="font-weight: bold;">## format.small-heading ## (H3)</span>',
-          params: { tag: 'h3', block: 'heading' }
-        },
-        "ul": {
-          title: '&bull; ## format.unordered-list ##',
-          params: { tag: 'ul', block: 'list' }
-        },
-        "ol": {
-          title: '1. ## format.ordered-list ##',
-          params: { tag: 'ol', block: 'list' }
-        }
-      },
-      subscribe: {
-        'editor.focus': function () {
-          document.body.querySelectorAll(".arx-toolbar-container").forEach((el) => { el.style.display = "none" });
-          this.container.$toolbar.nodes[0].style.display = "flex";
-        },
-        'editor.content.change': function () {
-          Imagine.unsavedChanges = true;
-        }
-      }
-    }
-  };
-};
 
 window.Imagine = {
+  start(config) {
+    Imagine.config = {
+      editor: 'redactor',
+      redactor: {
+        removeScript: false,
+        toolbarExternal: '#Imagine-RTE-Toolbar',
+        plugins: [],
+        clips: [],
+        imageResizable: true,
+        imagePosition: true,
+        imageUpload: this.imageUploadHandler,
+        fileUpload: this.fileUploadHandler,
+      },
+      article: {
+        plugins: [
+          'blockcode',
+          // 'counter',
+          // 'inlineformat',
+          'reorder',
+          // 'selector',
+        ],
+        toolbar: {
+          sticky: false
+        },
+        image: {
+          upload: (upload, data) => { this.handleUpload(upload, data) },
+          multiple: false
+        },
+        format: {
+          "p": {
+            title: '## format.normal-text ##',
+            params: { tag: 'p', block: 'paragraph' }
+          },
+          "h1": {
+            title: '<span style="font-size: 18px; font-weight: bold;">## format.large-heading ## (H1)</span>',
+            params: { tag: 'h1', block: 'heading' }
+          },
+          "h2": {
+            title: '<span style="font-size: 16px; font-weight: bold;">## format.medium-heading ## (H2)</span>',
+            params: { tag: 'h2', block: 'heading' }
+          },
+          "h3": {
+            title: '<span style="font-weight: bold;">## format.small-heading ## (H3)</span>',
+            params: { tag: 'h3', block: 'heading' }
+          },
+          "ul": {
+            title: '&bull; ## format.unordered-list ##',
+            params: { tag: 'ul', block: 'list' }
+          },
+          "ol": {
+            title: '1. ## format.ordered-list ##',
+            params: { tag: 'ol', block: 'list' }
+          }
+        },
+        subscribe: {
+          'editor.focus': function () {
+            document.body.querySelectorAll(".arx-toolbar-container").forEach((el) => { el.style.display = "none" });
+            this.container.$toolbar.nodes[0].style.display = "flex";
+          },
+          'editor.content.change': function () {
+            this.unsavedChanges = true;
+          }
+        }
+      }
+    };
+
+    // merge in config if provided... not quite a deep merge but enough for now
+    if (config) {
+      if (config.article) config.article = { ...this.config.article, ...config.article };
+      if (config.redactor) config.redactor = { ...this.config.redactor, ...config.redactor };
+      this.config = { ...this.config, ...config };
+    }
+  },
+
+  config: {},
+
   showViewToolbar: (id, path, display_version_options, published_version_options, published_version_class) => {
     const toolbar = document.createElement("div");
     toolbar.id = "Imagine-View-Toolbar";
@@ -261,13 +271,13 @@ window.Imagine = {
     // add editors
     const editorSelector = 'form#Imagine-Edit-Content-Form .Imagine-CmsPageObject-TextEditor .rteditor';
 
-    switch (ImagineConfig.editor) {
+    switch (Imagine.config.editor) {
       case 'redactor':
-        $R(editorSelector, ImagineConfig.redactor);
+        $R(editorSelector, Imagine.config.redactor);
         break;
 
       case 'article':
-        window.ArticleEditor(editorSelector, ImagineConfig.article);
+        window.ArticleEditor(editorSelector, Imagine.config.article);
         break;
     }
 
@@ -301,4 +311,4 @@ window.Imagine = {
       reader.readAsDataURL(file);
     }
   }
-}
+};

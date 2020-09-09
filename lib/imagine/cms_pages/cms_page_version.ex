@@ -35,9 +35,11 @@ defmodule Imagine.CmsPages.CmsPageVersion do
     belongs_to :cms_template, CmsTemplate
     field :cms_template_version, :integer
 
+    belongs_to :parent, CmsPage
+    has_many :sub_pages, CmsPage, foreign_key: :parent_id, where: [discarded_at: nil]
+
     field :version, :integer
 
-    field :parent_id, :integer
     field :path, :string
     field :name, :string
     field :title, :string

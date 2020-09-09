@@ -1,6 +1,4 @@
 defmodule ImagineWeb.Router do
-  use Plug.ErrorHandler
-
   use ImagineWeb, :router
 
   pipeline :browser do

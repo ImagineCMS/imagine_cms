@@ -119,9 +119,9 @@ defmodule ImagineWeb.CmsPageController do
     cms_page =
       id
       |> CmsPages.get_cms_page_with_objects!(version)
-      |> Imagine.Repo.preload([:cms_template, :tags])
+      |> Repo.preload([:cms_template, :tags])
 
-    output = CmsTemplate.render(:edit, cms_page.cms_template.content, cms_page, conn)
+    output = CmsTemplate.render(:edit, cms_page.cms_template.content_eex, cms_page, conn)
 
     conn
     |> set_page_id_in_session(params["id"])
@@ -129,8 +129,7 @@ defmodule ImagineWeb.CmsPageController do
       output: output,
       cms_page: cms_page,
       version: version,
-      csrf_token: get_csrf_token(),
-      layout: {ImagineWeb.LayoutView, "app.html"}
+      csrf_token: get_csrf_token()
     )
   end
 

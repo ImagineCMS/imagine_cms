@@ -207,6 +207,8 @@ defmodule Crutches.String do
   ]
   def truncate(string, len, opts \\ [])
 
+  def truncate(nil, _, _), do: nil
+
   def truncate(string, len, opts) when is_binary(string) and is_integer(len) do
     opts = Option.combine!(opts, @truncate)
 

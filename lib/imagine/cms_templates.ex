@@ -105,7 +105,7 @@ defmodule Imagine.CmsTemplates do
            changeset,
            :content_eex,
            "Could not compile template.",
-           additional: "Line #{err.line}: #{err.description}"
+           additional: "Line #{err.line || "?"}: #{err.description}"
          )}
     end
   end
