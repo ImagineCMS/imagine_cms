@@ -14,7 +14,12 @@ defmodule Imagine.Application do
         id: NodeJS,
         start:
           {NodeJS, :start_link,
-           [[path: Application.app_dir(:imagine_cms, "priv/js"), pool_size: 2]]}
+           [
+             [
+               path: Application.app_dir(:imagine_cms, "priv/js"),
+               pool_size: Application.get_env(:imagine_cms, :nodejs_pool_size) || 1
+             ]
+           ]}
       }
     ]
 
