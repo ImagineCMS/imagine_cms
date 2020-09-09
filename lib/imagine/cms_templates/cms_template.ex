@@ -74,7 +74,7 @@ defmodule Imagine.CmsTemplates.CmsTemplate do
     header = "<% import Imagine.CmsTemplates.RenderViewHelpers; #{@render_helpers} %>"
 
     EEx.eval_string(
-      header <> content,
+      header <> (content || ""),
       [assigns: [conn: Plug.Conn.assign(conn, :cms_page, cms_page), cms_page: cms_page]],
       engine: Phoenix.HTML.Engine
     )
@@ -87,7 +87,7 @@ defmodule Imagine.CmsTemplates.CmsTemplate do
     header = "<% import Imagine.CmsTemplates.RenderEditHelpers; #{@render_helpers} %>"
 
     EEx.eval_string(
-      header <> content,
+      header <> (content || ""),
       [assigns: [conn: Plug.Conn.assign(conn, :cms_page, cms_page), cms_page: cms_page]],
       engine: Phoenix.HTML.Engine
     )
