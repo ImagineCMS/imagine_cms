@@ -97,6 +97,7 @@ defmodule Imagine.CmsPages.CmsPage do
     cms_page
     |> cast(attrs, [
       :title,
+      :name,
       :cms_template_id,
       :parent_id,
       :published_version,
@@ -109,7 +110,6 @@ defmodule Imagine.CmsPages.CmsPage do
       :redirect_to,
       :position
     ])
-    |> put_name(attrs)
     |> put_path
     |> put_date_with_default(:published_date, attrs)
     |> put_date_with_default(:article_date, attrs)
@@ -333,10 +333,6 @@ defmodule Imagine.CmsPages.CmsPage do
       {:ok, date} -> date
       {:error, _} -> nil
     end
-  end
-
-  def put_name(changeset, attrs) do
-    put_change(changeset, :name, attrs["name"] || attrs[:name])
   end
 
   def put_path(changeset) do
