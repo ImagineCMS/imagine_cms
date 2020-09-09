@@ -92,7 +92,7 @@ defmodule ImagineWeb.CmsRendererController do
               cms_page_version.version,
               cms_page_version.cms_template_id,
               cms_page_version.cms_template_version
-            )
+            ) || get_cms_template_content(cms_page, 0, cms_page_version.cms_template_id, nil)
 
           output = CmsTemplate.render(:view, cms_template_content, cms_page_version, conn)
           Imagine.Cache.set(key, output)
