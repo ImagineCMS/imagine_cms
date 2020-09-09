@@ -126,8 +126,11 @@ defmodule Imagine.CmsPages do
     |> preload_objects_and_versions()
   end
 
+  def get_cms_page_by_path(nil), do: get_home_page!()
+  def get_cms_page_by_path(""), do: get_home_page!()
+
   def get_cms_page_by_path(path) do
-    Repo.get_by(active_pages_query(), path: to_string(path))
+    Repo.get_by(active_pages_query(), path: path)
   end
 
   def get_cms_page_by_path_for_nav(path) do
@@ -136,8 +139,24 @@ defmodule Imagine.CmsPages do
   end
 
   def get_cms_page_version_by(params) do
-    Repo.get_by(active_versions_query(), params)
+    if Keyword.has_key?(params, :path) do
+      case params[:path] do
+        nil -> get_home_page_version_by(Keyword.delete(params, :path))
+        "" -> get_home_page_version_by(Keyword.delete(params, :path))
+        path -> get_cms_page_version_by(get_cms_page_by_path(path), Keyword.delete(params, :path))
+      end
+    else
+      Repo.get_by(active_versions_query(), params)
+    end
   end
+
+  def get_cms_page_version_by(nil, _), do: nil
+
+  def get_cms_page_version_by(cms_page, params) do
+    Repo.get_by(from(v in active_versions_query(), where: v.cms_page_id == ^cms_page.id), params)
+  end
+
+  def get_home_page_version_by(params), do: get_home_page!() |> get_cms_page_version_by(params)
 
   def get_cms_page_by_path_with_objects(path, version \\ nil)
 
@@ -149,7 +168,7 @@ defmodule Imagine.CmsPages do
   end
 
   def get_cms_page_by_path_with_objects(path, version) do
-    get_cms_page_version_by(path: to_string(path), version: version)
+    get_cms_page_version_by(path: path, version: version)
     |> preload_objects_and_versions()
   end
 
@@ -168,7 +187,7 @@ defmodule Imagine.CmsPages do
 
   def preload_objects_and_versions(%{version: version} = page_or_version) do
     page_or_version
-    |> Repo.preload([:sub_pages])
+    |> Repo.preload([:sub_pages, :cms_template, :tags])
     |> Repo.preload(
       objects: from(o in CmsPageObject, where: o.cms_page_version == ^version),
       versions:
@@ -502,7 +521,7 @@ defmodule Imagine.CmsPages do
     {:ok, _} =
       clone_and_update_cms_page_object(
         cms_page_object,
-        Map.put(attrs, "cms_page_version", new_version)
+        Map.put(attrs || %{}, "cms_page_version", new_version)
       )
 
     update_cms_page_objects(cms_page_objects, attrses, new_version)

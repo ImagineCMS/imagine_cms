@@ -116,11 +116,7 @@ defmodule ImagineWeb.CmsPageController do
   def edit_content(conn, %{"id" => id} = params) do
     version = params["version"]
 
-    cms_page =
-      id
-      |> CmsPages.get_cms_page_with_objects!(version)
-      |> Repo.preload([:cms_template, :tags])
-
+    cms_page = CmsPages.get_cms_page_with_objects!(id, version)
     output = CmsTemplate.render(:edit, cms_page.cms_template.content_eex, cms_page, conn)
 
     conn
@@ -134,14 +130,10 @@ defmodule ImagineWeb.CmsPageController do
   end
 
   def update_content(conn, %{"id" => id} = params) do
+    current_user = conn.assigns[:current_user]
     version = params["version"]
 
-    cms_page =
-      id
-      |> CmsPages.get_cms_page_with_objects!(version)
-      |> Repo.preload([:cms_template, :tags])
-
-    current_user = conn.assigns[:current_user]
+    cms_page = CmsPages.get_cms_page_with_objects!(id, version)
 
     # FIXME: Create something like CmsPages.update_cms_page_and_objects that uses Ecto.Multi
     {:ok, new_cms_page} =
@@ -161,8 +153,7 @@ defmodule ImagineWeb.CmsPageController do
 
     {:ok, _updated_cms_page} = CmsPages.update_cms_page(cms_page, attrs, false, current_user)
 
-    conn
-    |> resp(200, "success")
+    resp(conn, 200, "success")
   end
 
   def delete(conn, %{"id" => id}) do

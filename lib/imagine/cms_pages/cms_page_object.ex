@@ -67,11 +67,7 @@ defmodule Imagine.CmsPages.CmsPageObject do
       content =
         changeset
         |> get_field(f)
-        |> IO.inspect(label: "#{f} before strip_utf8")
-        # IO.inspect(String.valid?(content), "String.valid?(#{f})")
-        # content = content
         |> strip_utf8
-        |> IO.inspect(label: "#{f} after strip_utf8")
 
       put_change(changeset, f, content)
     end

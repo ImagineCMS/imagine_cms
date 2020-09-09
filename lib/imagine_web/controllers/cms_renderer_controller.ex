@@ -2,7 +2,7 @@ defmodule ImagineWeb.CmsRendererController do
   use ImagineWeb, :controller
 
   alias Imagine.CmsPages
-  alias Imagine.CmsPages.CmsPage
+  alias Imagine.CmsPages.{CmsPage, CmsPageVersion}
   alias Imagine.CmsTemplates
   alias Imagine.CmsTemplates.CmsTemplate
   alias Phoenix.HTML
@@ -66,12 +66,7 @@ defmodule ImagineWeb.CmsRendererController do
 
     cms_page =
       cached_result ||
-        Imagine.Cache.set(
-          key,
-          cms_page
-          |> CmsPages.preload_objects_and_versions()
-          |> Imagine.Repo.preload([:cms_template, :tags])
-        )
+        Imagine.Cache.set(key, CmsPages.preload_objects_and_versions(cms_page))
 
     cms_page_version = get_requested_cms_page_version(cms_page, version)
 
@@ -79,8 +74,10 @@ defmodule ImagineWeb.CmsRendererController do
   end
 
   defp render_requested_cms_page_version(conn, nil, _), do: render_404(conn)
+  defp render_requested_cms_page_version(conn, _, nil), do: render_404(conn)
 
-  defp render_requested_cms_page_version(%Plug.Conn{} = conn, cms_page, cms_page_version) do
+  # note: cms_page_version is often a %CmsPage
+  defp render_requested_cms_page_version(conn, %CmsPage{} = cms_page, cms_page_version) do
     user = conn.assigns[:current_user]
 
     key = {{"rendered_template_output", cms_page.id, cms_page_version.version}}
@@ -144,16 +141,23 @@ defmodule ImagineWeb.CmsRendererController do
   end
 
   defp get_requested_cms_page_version(nil, _), do: nil
-  defp get_requested_cms_page_version(cms_page, version) when version == 0, do: cms_page
+  defp get_requested_cms_page_version(_, nil), do: nil
+
+  defp get_requested_cms_page_version(cms_page, version_str) when is_binary(version_str) do
+    case Integer.parse(version_str) do
+      :error -> nil
+      {version, _} -> get_requested_cms_page_version(cms_page, version)
+    end
+  end
+
+  defp get_requested_cms_page_version(cms_page, 0), do: cms_page
 
   defp get_requested_cms_page_version(%CmsPage{version: pg_version} = cms_page, version)
        when version == pg_version,
        do: cms_page
 
   defp get_requested_cms_page_version(%CmsPage{} = cms_page, version) do
-    cms_page.path
-    |> CmsPages.get_cms_page_by_path_with_objects(version)
-    |> Imagine.Repo.preload([:cms_template, :tags])
+    CmsPages.get_cms_page_by_path_with_objects(cms_page.path, version)
   end
 
   # if page version is latest (0 or pg_version), use latest template version.
