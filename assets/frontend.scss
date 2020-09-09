@@ -122,18 +122,14 @@ body { margin: 0; padding: 0; }
     .field { flex: 1 1 auto; }
   }
 
-  font-family: sans-serif;
-  font-size: 14px;
-
-  // form .actions {
-  //   background-color: #eee;
-  //   position: sticky;
-  //   bottom: 0;
-  //   padding: 10px 10px;
-    
-  //   /* place above checkbox sliders, codemirror line numbers, etc. */
-  //   z-index: 10; 
-  // }
+  font-family: 'Lato', 'Helvetica Neue', 'Arial', 'Helvetica', sans-serif !important;
+  .header {
+    font-size: 20px;
+  }
+  #Imagine-Properties-Form {
+    font-size: 14px;
+    * { font-size: 14px; }
+  }
 }
 
 /*** <codemirror> ***/
