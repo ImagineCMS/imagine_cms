@@ -15,4 +15,11 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => { Imagine.initEditor(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.code == 'KeyS' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      document.getElementById('Imagine-Edit-Content-Form').submit();
+      return false;
+    }
+  });
 </script>
