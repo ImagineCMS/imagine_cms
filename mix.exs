@@ -4,7 +4,7 @@ defmodule Imagine.MixProject do
   def project do
     [
       app: :imagine_cms,
-      version: "6.3.0",
+      version: "6.3.1",
       elixir: "~> 1.10",
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -31,7 +31,7 @@ defmodule Imagine.MixProject do
 
   defp package do
     [
-      files: ["lib", "mix.exs", "README*", "LICENSE*"],
+      files: ["lib", "priv", "mix.exs", "package.json", "LICENSE", "*.md"],
       maintainers: ["Aaron Namba"],
       licenses: ["Apache 2.0"],
       links: %{"GitHub" => "https://github.com/ImagineCMS/imagine_cms"}
