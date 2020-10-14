@@ -46,10 +46,14 @@ Already in use in production, for sites that don't need these features yet to be
 
 * Photo galleries
 * Scheduling/expiration of posts
-* Page list calendar view
 * Page list RSS feed
 * User permissions and draft approval system
 * Search function
+
+Planned features that go far beyond Imagine 5:
+
+* Multisite capability: Easily add new (sub-)domains (each with its own layout and templates) and move pages between them
+* Newsletter subscriptions: Users can subscribe to page list updates and receive daily/weekly email notifications
 
 ## Installation
 
@@ -59,6 +63,10 @@ See [INSTALL.md](https://github.com/ImagineCMS/imagine_cms/blob/main/INSTALL.md)
 
 See [DEPLOY.md](https://github.com/ImagineCMS/imagine_cms/blob/main/DEPLOY.md).
 
+## Imagine 5 -> 6 Migration Notes
+
+See [MIGRATE.md](https://github.com/ImagineCMS/imagine_cms/blob/main/MIGRATE.md).
+
 ## Getting Help
 
 You can get paid support and hosting for Imagine CMS straight its creators: [Bigger Bird Creative, Inc.](https://biggerbird.com)
@@ -66,16 +74,6 @@ You can get paid support and hosting for Imagine CMS straight its creators: [Big
 ## Contributing
 
 Issues and pull requests welcome, especially related to code cleanup, testing, and documentation.
-
-## Imagine 5 -> 6 Migration Notes
-
-Migrations from 5 to 6 are possible with a little bit of elbow grease.
-
-Template syntax is close, but not identical. To allow Imagine 5 and 6 to run together without conflicts, the Imagine 6 migration process creates a separate `content_eex` field on each template, leaving the original `content` field untouched.
-
-* The deprecated `insert_object` style calls have been removed.
-* Naturally, any Ruby/Rails/ERB stuff must be removed or rewritten.
-* No "dynamic" page list configuration is possible from within a page. All configuration must be done at the template level. This may change in the near future.
 
 ## Note re: associations
 

@@ -1,2 +1,2 @@
-assets/semantic/** linguist-vendored
-priv/static/** linguist-vendored
+assets/semantic/**/* linguist-vendored
+priv/static/**/* linguist-vendored
