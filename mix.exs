@@ -45,7 +45,7 @@ defmodule Imagine.MixProject do
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.0"},
       {:myxql, ">= 0.0.0"},
-      {:phoenix_live_view, "~> 0.13.0"},
+      {:phoenix_live_view, "~> 0.14"},
       {:phoenix_html, "~> 2.14"},
       {:gettext, "~> 0.17"},
       {:jason, "~> 1.0"},
