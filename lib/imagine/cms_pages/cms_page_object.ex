@@ -27,6 +27,7 @@ defmodule Imagine.CmsPages.CmsPageObject do
     cms_page_object
     |> cast(attrs, [:cms_page_id, :cms_page_version, :name, :obj_type, :content, :options])
     |> validate_required([:cms_page_id, :cms_page_version, :name, :obj_type])
+    |> extract_data_urls_into_files([:content])
 
     # |> clean_up_invalid_chars([:content])
   end
@@ -42,22 +43,95 @@ defmodule Imagine.CmsPages.CmsPageObject do
     String.replace(title, ~r/[^-_A-Za-z0-9]+/, "-")
   end
 
-  def write_data_url_to_file(data_url) do
-    mime_type = String.replace(data_url, ~r{^data:(image/.+?);.*$}, "\\1")
+  def extract_data_urls_into_files(%{valid?: false} = changeset), do: changeset
+
+  def extract_data_urls_into_files(changeset, fields) do
+    cms_page_id = get_field(changeset, :cms_page_id)
+
+    Enum.reduce(fields, changeset, fn f, changeset ->
+      content =
+        changeset
+        |> get_field(f)
+        |> replace_img_src_data_urls_with_files(cms_page_id)
+        |> replace_a_href_data_urls_with_files(cms_page_id)
+
+      put_change(changeset, f, content)
+    end)
+  end
+
+  def replace_img_src_data_urls_with_files(html, cms_page_id) do
+    html
+    |> Floki.find("img")
+    |> Enum.filter(&element_has_data_url(&1, "src"))
+    |> Enum.map(&convert_data_url_to_image_file(&1, cms_page_id))
+    |> Enum.reduce(html, fn {data_url, image_url}, html ->
+      String.replace(html, data_url, image_url)
+    end)
+  end
+
+  def replace_a_href_data_urls_with_files(html, cms_page_id) do
+    html
+    |> Floki.find("a")
+    |> Enum.filter(&element_has_data_url(&1, "href"))
+    |> Enum.map(&convert_data_url_to_file(&1, cms_page_id))
+    |> Enum.reduce(html, fn {data_url, file_url}, html ->
+      String.replace(html, data_url, file_url)
+    end)
+  end
+
+  def element_has_data_url(element, attribute) do
+    Enum.any?(Floki.attribute(element, attribute), &(&1 =~ ~r{^data:}))
+  end
+
+  def get_html_attribute(element, attr), do: element |> Floki.attribute(attr) |> List.first()
+
+  def convert_data_url_to_image_file(img, cms_page_id) do
+    with title <- get_html_attribute(img, "title") || "",
+         data_filename <- get_html_attribute(img, "data-filename") || "",
+         data_url <- get_html_attribute(img, "src"),
+         tmp_path <- write_data_url_to_file(data_url, data_filename),
+         filename <- to_filename(title, data_filename) <> Path.extname(tmp_path),
+         {:ok, _new_or_existing, original_path, filename} <-
+           CmsPage.store_original(filename, tmp_path),
+         final_path <-
+           CmsPage.link_original_to_page_path(original_path, filename, cms_page_id) do
+      {data_url, final_path}
+    end
+  end
+
+  def convert_data_url_to_file(a, cms_page_id) do
+    with data_filename <- get_html_attribute(a, "data-filename") || "",
+         data_url <- get_html_attribute(a, "href"),
+         tmp_path <- write_data_url_to_file(data_url, data_filename),
+         filename <- data_filename,
+         {:ok, _new_or_existing, original_path, filename} <-
+           CmsPage.store_original(filename, tmp_path),
+         final_path <-
+           CmsPage.link_original_to_page_path(original_path, filename, cms_page_id) do
+      {data_url, final_path}
+    end
+  end
+
+  def write_data_url_to_file(data_url, data_filename) do
+    # mime_type = String.replace(data_url, ~r{^data:((?:image|application)/.+?);.*$}, "\\1")
 
     # determine extension by either removing leading "image/" or by specifying directly
-    extension =
-      %{
-        "image/jpeg" => "jpg",
-        "image/svg+xml" => "svg"
-      }[mime_type] || String.replace(mime_type, "image/", "")
+    # extension =
+    #   case mime_type do
+    #     "image/jpeg" -> "jpg"
+    #     "image/svg+xml" -> "svg"
+    #     other -> String.replace(other, ~r/(application|image)\//, "")
+    #   end
 
-    data = String.replace(data_url, ~r{^data:image/(\w+);base64,(.*)$}, "\\2")
+    extension = Path.extname(data_filename) |> String.downcase()
+
+    data = String.replace(data_url, ~r{^data:(?:\w+)/(?:[-\w\.\+]+);base64,(.*)$}, "\\1")
 
     path =
       Path.join([System.tmp_dir!(), "image-#{System.unique_integer([:positive])}.#{extension}"])
 
-    File.write!(path, Base.decode64!(data))
+    :ok = File.write!(path, Base.decode64!(data))
+
     path
   end
 

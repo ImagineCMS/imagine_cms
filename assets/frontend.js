@@ -169,7 +169,7 @@ window.Imagine = {
             // const data = JSON.parse(this.responseText);
 
             // we get the returned data
-            console.log("set published version success");
+            // console.log("set published version success");
             document.getElementById("Imagine-Published-Version-Spinner").style.display = 'none';
 
             publishedVersionSelect.classList.toggle("old-version", publishedVersionSelect.selectedIndex > 1);
@@ -199,13 +199,12 @@ window.Imagine = {
       placeholders[id] = { "id": id, "url": "/images/page_loading.gif" };;
 
       reader.addEventListener("load", function () {
-        // let image = new Image();
-        console.log(`selector: img[data-image='${id}']`);
         let image = document.querySelector(`img[data-image='${id}']`);
         image.src = this.result;
         image.alt = file.name;
         image.dataset.filename = file.name;
-        upload.editor.insertion.insertHtml(image.outerHTML);
+        delete image.dataset.image;
+        // upload.editor.insertion.insertHtml(image.outerHTML);
       }, false);
 
       reader.readAsDataURL(file);
@@ -228,6 +227,9 @@ window.Imagine = {
         let link = document.querySelector(`a[data-file='${id}']`);
         link.href = this.result;
         link.dataset.filename = file.name;
+        delete link.dataset.file;
+
+        if (link.innerHTML.trim().length == 0) link.innerText = file.name;
         // upload.editor.insertion.insertHtml(link.outerHTML);
       }, false);
 

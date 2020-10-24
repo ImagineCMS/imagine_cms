@@ -4,7 +4,7 @@ defmodule Imagine.MixProject do
   def project do
     [
       app: :imagine_cms,
-      version: "6.3.3",
+      version: "6.3.4",
       elixir: "~> 1.10",
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -52,6 +52,7 @@ defmodule Imagine.MixProject do
       {:argon2_elixir, "~> 2.0"},
       {:nebulex, "~> 1.2"},
       {:timex, "~> 3.6"},
+      {:floki, ">= 0.0.0"},
       {:nodejs, "~> 2.0"},
       {:mix_test_watch, "~> 1.0", only: [:dev], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}

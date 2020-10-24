@@ -2,7 +2,7 @@ defmodule ImagineWeb.CmsRendererController do
   use ImagineWeb, :controller
 
   alias Imagine.CmsPages
-  alias Imagine.CmsPages.{CmsPage, CmsPageVersion}
+  alias Imagine.CmsPages.CmsPage
   alias Imagine.CmsTemplates
   alias Imagine.CmsTemplates.CmsTemplate
   alias Phoenix.HTML
