@@ -4,6 +4,7 @@ defmodule Imagine.CmsPages do
   """
 
   import Ecto.Query, warn: false
+  alias Ecto.Multi
   alias Imagine.Repo
 
   alias Imagine.CmsPages.{CmsPage, CmsPageObject, CmsPageTag, CmsPageVersion}
@@ -406,6 +407,19 @@ defmodule Imagine.CmsPages do
     %CmsPageVersion{}
     |> CmsPageVersion.changeset(cms_page)
     |> Repo.insert()
+  end
+
+  def delete_cms_page_version(cms_page_version) do
+    object_query =
+      from po in CmsPageObject, where: po.cms_page_version == ^cms_page_version.version
+
+    {:ok, %{objects: _objects, version: version}} =
+      Multi.new()
+      |> Multi.delete_all(:objects, object_query)
+      |> Multi.delete(:version, cms_page_version)
+      |> Repo.transaction()
+
+    {:ok, version}
   end
 
   @doc """

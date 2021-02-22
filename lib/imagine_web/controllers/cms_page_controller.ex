@@ -64,7 +64,7 @@ defmodule ImagineWeb.CmsPageController do
   def show(conn, %{"id" => id}) do
     cms_page =
       CmsPages.get_cms_page!(id, include_deleted: true)
-      |> Repo.preload(:sub_pages)
+      |> Repo.preload([:sub_pages, :cms_template, :parent, :author])
 
     conn = put_session(conn, :cms_page_id, cms_page.id)
     render(conn, "show.html", cms_page: cms_page)

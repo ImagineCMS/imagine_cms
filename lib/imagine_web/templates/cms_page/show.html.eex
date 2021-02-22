@@ -18,25 +18,28 @@
 </div>
 
 <table class="ui summary table">
+  <tr>
+    <td><strong>Latest Version:</strong></td>
+    <td><%= @cms_page.version %> by <%= Imagine.Accounts.User.name(@cms_page.author) %> (<%= @cms_page.updated_by_username %>)</td>
+  </tr>
 
   <tr>
-    <td><strong>Version:</strong></td>
-    <td><%= @cms_page.version %></td>
+    <td><strong>Published version:</strong></td>
+    <td><%= case @cms_page.published_version do
+              0 -> "Latest"
+              -1 -> "Offline"
+              v -> v
+            end %></td>
   </tr>
 
   <tr>
     <td><strong>Template:</strong></td>
-    <td><%= @cms_page.cms_template_id %></td>
-  </tr>
-
-  <tr>
-    <td><strong>Template version:</strong></td>
-    <td><%= @cms_page.cms_template_version %></td>
+    <td><%= @cms_page.cms_template.name %></td>
   </tr>
 
   <tr>
     <td><strong>Parent:</strong></td>
-    <td><%= @cms_page.parent_id %></td>
+    <td><%= link @cms_page.parent.name, to: Routes.cms_page_path(@conn, :show, @cms_page.parent) %></td>
   </tr>
 
   <tr>
@@ -45,23 +48,8 @@
   </tr>
 
   <tr>
-    <td><strong>Name:</strong></td>
-    <td><%= @cms_page.name %></td>
-  </tr>
-
-  <tr>
     <td><strong>Title:</strong></td>
     <td><%= @cms_page.title %></td>
-  </tr>
-
-  <tr>
-    <td><strong>Published version:</strong></td>
-    <td><%= @cms_page.published_version %></td>
-  </tr>
-
-  <tr>
-    <td><strong>Published date:</strong></td>
-    <td><%= @cms_page.published_date %></td>
   </tr>
 
   <tr>
@@ -75,13 +63,19 @@
   </tr>
 
   <tr>
-    <td><strong>Expiration date:</strong></td>
-    <td><%= @cms_page.expiration_date %></td>
+    <td><strong>Published date:</strong></td>
+    <td><%= @cms_page.published_date %></td>
   </tr>
 
   <tr>
     <td><strong>Expires:</strong></td>
-    <td><%= @cms_page.expires %></td>
+    <td>
+      <%= if @cms_page.expires do %>
+        Yes - <%= @cms_page.expiration_date %>
+      <% else %>
+        No
+      <% end %>
+    </td>
   </tr>
 
   <tr>
@@ -90,48 +84,27 @@
   </tr>
 
   <tr>
-    <td><strong>Html head:</strong></td>
+    <td><strong>HTML head:</strong></td>
     <td><%= @cms_page.html_head %></td>
   </tr>
 
   <tr>
-    <td><strong>Thumbnail path:</strong></td>
-    <td><%= @cms_page.thumbnail_path %></td>
+    <td><strong>Thumbnail:</strong></td>
+    <td><%= link Path.basename(@cms_page.thumbnail_path || "") |> String.replace(~r/\?\d+$/, ""), to: @cms_page.thumbnail_path || "" %></td>
   </tr>
 
   <tr>
-    <td><strong>Feature image path:</strong></td>
-    <td><%= @cms_page.feature_image_path %></td>
+    <td><strong>Feature image:</strong></td>
+    <td><%= link Path.basename(@cms_page.feature_image_path || "") |> String.replace(~r/\?\d+$/, ""), to: @cms_page.feature_image_path || "" %></td>
   </tr>
 
   <tr>
-    <td><strong>Redirect enabled:</strong></td>
-    <td><%= @cms_page.redirect_enabled %></td>
-  </tr>
-
-  <tr>
-    <td><strong>Redirect to:</strong></td>
-    <td><%= @cms_page.redirect_to %></td>
+    <td><strong>Redirects to:</strong></td>
+    <td><%= if @cms_page.redirect_enabled, do: @cms_page.redirect_to %></td>
   </tr>
 
   <tr>
     <td><strong>Position:</strong></td>
     <td><%= @cms_page.position %></td>
   </tr>
-
-  <tr>
-    <td><strong>Search index:</strong></td>
-    <td><%= @cms_page.search_index %></td>
-  </tr>
-
-  <tr>
-    <td><strong>Updated by:</strong></td>
-    <td><%= @cms_page.updated_by %></td>
-  </tr>
-
-  <tr>
-    <td><strong>Updated by username:</strong></td>
-    <td><%= @cms_page.updated_by_username %></td>
-  </tr>
-
 </table>

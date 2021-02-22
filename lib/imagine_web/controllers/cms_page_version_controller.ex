@@ -15,9 +15,27 @@ defmodule ImagineWeb.CmsPageVersionController do
     )
   end
 
-  def show(conn, %{"id" => id} = params) do
-    cms_page = CmsPages.get_cms_page!(params["cms_page_id"])
-    cms_page_version = CmsPages.get_cms_page_version!(id)
+  def show(conn, %{"id" => id, "cms_page_id" => cms_page_id}) do
+    cms_page = CmsPages.get_cms_page!(cms_page_id)
+
+    cms_page_version =
+      CmsPages.get_cms_page_version!(id)
+      |> Imagine.Repo.preload([:cms_template, :parent, :author])
+
     render(conn, "show.html", cms_page: cms_page, cms_page_version: cms_page_version)
+  end
+
+  def delete(conn, %{"id" => id, "cms_page_id" => cms_page_id}) do
+    cms_page = CmsPages.get_cms_page!(cms_page_id)
+    cms_page_version = CmsPages.get_cms_page_version!(id)
+
+    unless cms_page.version == cms_page_version.version ||
+             cms_page.published_version == cms_page_version.version do
+      {:ok, cms_page_version} = CmsPages.delete_cms_page_version(cms_page_version)
+
+      conn
+      |> put_flash(:info, "Version #{cms_page_version.version} deleted successfully.")
+      |> redirect(to: Routes.cms_page_path(conn, :show, cms_page))
+    end
   end
 end

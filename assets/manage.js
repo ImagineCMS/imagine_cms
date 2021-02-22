@@ -9,7 +9,7 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
 window.CodeMirror = CodeMirror;
 
-// import "phoenix_html";
+import "phoenix_html";
 
 import { Socket } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"

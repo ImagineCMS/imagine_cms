@@ -7,8 +7,6 @@
       <th>Title</th>
       <th>Template</th>
       <th>Published date</th>
-      <th>Article date</th>
-      <th>Redirect to</th>
       <th>Author</th>
     </tr>
   </thead>
@@ -19,8 +17,6 @@
       <td><%= cms_page_version.title %></td>
       <td><%= link cms_page_version.cms_template.name, to: Routes.cms_template_version_path(@conn, :show, cms_page_version.cms_template_id, cms_page_version.cms_template_version) %></td>
       <td><%= cms_page_version.published_date %></td>
-      <td><%= cms_page_version.article_date %></td>
-      <td><%= cms_page_version.redirect_to %></td>
       <td><%= link cms_page_version.updated_by_username, to: Routes.user_path(@conn, :show, cms_page_version.updated_by) %></td>
     </tr>
     <% end %>

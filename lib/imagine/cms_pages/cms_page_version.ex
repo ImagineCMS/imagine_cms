@@ -6,6 +6,7 @@ defmodule Imagine.CmsPages.CmsPageVersion do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Imagine.Accounts.User
   alias Imagine.CmsPages.CmsPage
   alias Imagine.CmsTemplates.CmsTemplate
 
@@ -38,6 +39,9 @@ defmodule Imagine.CmsPages.CmsPageVersion do
     belongs_to :parent, CmsPage
     has_many :sub_pages, CmsPage, foreign_key: :parent_id, where: [discarded_at: nil]
 
+    belongs_to :author, User, foreign_key: :updated_by
+    field :updated_by_username, :string
+
     field :version, :integer
 
     field :path, :string
@@ -65,9 +69,6 @@ defmodule Imagine.CmsPages.CmsPageVersion do
 
     field :comment_count, :integer
     field :search_index, :string
-
-    field :updated_by, :integer
-    field :updated_by_username, :string
 
     field :discarded_at, :naive_datetime
 
