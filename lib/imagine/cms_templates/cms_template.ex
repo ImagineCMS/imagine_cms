@@ -67,7 +67,7 @@ defmodule Imagine.CmsTemplates.CmsTemplate do
     end
   end
 
-  @render_helpers "use Phoenix.HTML; alias Imagine.{CmsPages, CmsPages.CmsPage}; import Kernel, only: [sigil_r: 2, sigil_s: 2, sigil_S: 2, if: 2, ==: 2, !=: 2, |>: 2, ||: 2, &&: 2];"
+  @render_helpers "use Phoenix.HTML; alias Imagine.{CmsPages, CmsPages.CmsPage}; import Kernel, only: [sigil_r: 2, sigil_s: 2, sigil_S: 2, if: 2, ==: 2, !=: 2, <: 2, <=: 2, >: 2, >=: 2, |>: 2, ||: 2, &&: 2];"
   def render(:view, content, cms_page, %Plug.Conn{} = conn) do
     header = "<% import Imagine.CmsTemplates.RenderViewHelpers; #{@render_helpers} %>"
 
