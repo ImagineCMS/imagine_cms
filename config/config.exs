@@ -5,7 +5,7 @@
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
+import Config
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
