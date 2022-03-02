@@ -5,12 +5,12 @@ defmodule ImagineWeb.CmsPageView do
   alias Imagine.CmsPages.CmsPage
 
   def cms_page_browser(nil) do
-    home = CmsPages.get_home_page!()
+    home = CmsPages.get_home_page()
     cms_page_browser(home)
   end
 
   def cms_page_browser(target) do
-    home = CmsPages.get_home_page!()
+    home = CmsPages.get_home_page()
     trash = CmsPages.get_trash_page()
     cms_page_browser_columns(0, [home, trash], target)
   end

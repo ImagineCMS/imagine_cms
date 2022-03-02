@@ -58,7 +58,7 @@ attrs = %{
 }
 
 _home_page =
-  case CmsPages.get_cms_page_by_path("") do
+  case CmsPages.get_home_page() do
     nil ->
       {:ok, page} = CmsPages.create_cms_page(attrs, user)
       page

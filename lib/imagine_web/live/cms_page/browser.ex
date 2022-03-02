@@ -112,13 +112,13 @@ defmodule ImagineWeb.Live.CmsPage.Browser do
   end
 
   defp get_page(nil) do
-    CmsPages.get_home_page!()
+    CmsPages.get_home_page()
     |> Repo.preload([:sub_pages, :versions])
   end
 
   defp get_page(cms_page_id) do
     (CmsPages.get_cms_page(cms_page_id, include_deleted: true) ||
-       CmsPages.get_home_page!())
+       CmsPages.get_home_page())
     |> Repo.preload([:sub_pages, :versions])
   end
 end

@@ -44,8 +44,8 @@ defmodule Imagine.CmsPages do
     Repo.all(from p in discarded_pages_query(), order_by: [desc: :discarded_at])
   end
 
-  def get_home_page! do
-    Repo.get_by(active_pages_query(), path: "") || Repo.get!(Page, id: 1)
+  def get_home_page do
+    Repo.get_by(active_pages_query(), path: "") || Repo.get(CmsPage, 1)
   end
 
   def get_trash_page do
@@ -127,8 +127,8 @@ defmodule Imagine.CmsPages do
     |> preload_objects_and_versions()
   end
 
-  def get_cms_page_by_path(nil), do: get_home_page!()
-  def get_cms_page_by_path(""), do: get_home_page!()
+  def get_cms_page_by_path(nil), do: get_home_page()
+  def get_cms_page_by_path(""), do: get_home_page()
 
   def get_cms_page_by_path(path) do
     Repo.get_by(active_pages_query(), path: path)
@@ -157,7 +157,7 @@ defmodule Imagine.CmsPages do
     Repo.get_by(from(v in active_versions_query(), where: v.cms_page_id == ^cms_page.id), params)
   end
 
-  def get_home_page_version_by(params), do: get_home_page!() |> get_cms_page_version_by(params)
+  def get_home_page_version_by(params), do: get_home_page() |> get_cms_page_version_by(params)
 
   def get_cms_page_by_path_with_objects(path, version \\ nil)
 
