@@ -1,4 +1,4 @@
-# intended to represent the state of a legacy Imagine 5.x database
+# use this migration (fresh db) or the imagine_5_to_6 + utf8 migrations (conversion), but not both
 defmodule Imagine.Repo.Migrations.CmsTables do
   use Ecto.Migration
 

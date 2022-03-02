@@ -1,8 +1,9 @@
+# use either this migration or the cms_tables migration, but not both
+# note that some legacy dbs may already have the html_head column and/or the user email column
+
 defmodule Imagine.Repo.Migrations.Imagine5to6 do
   use Ecto.Migration
 
-  # use either this migration or the cms_tables migration, but not both
-  # note that some legacy dbs may already have the html_head column and/or the user email column
   def up do
     alter table(:cms_pages) do
       add(:layout, :string, size: 191)

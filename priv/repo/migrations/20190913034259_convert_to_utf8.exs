@@ -1,7 +1,7 @@
+# also expands the thumbnail and feature image path fields
 defmodule Imagine.Repo.Migrations.ConvertToUtf8 do
   use Ecto.Migration
 
-  # also expands the thumbnail and feature image path fields
   def up do
     target = "CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci"
 
