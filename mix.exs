@@ -41,12 +41,12 @@ defmodule Imagine.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix, "~> 1.5.3"},
+      {:phoenix, "~> 1.5"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.0"},
       {:myxql, ">= 0.0.0"},
       {:phoenix_live_view, "~> 0.14"},
-      {:phoenix_html, "~> 2.14"},
+      {:phoenix_html, "~> 2.14 or ~> 3.0"},
       {:gettext, "~> 0.17"},
       {:jason, "~> 1.0"},
       {:argon2_elixir, "~> 2.0"},
