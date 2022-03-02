@@ -8,8 +8,8 @@
 
     <title><%= assigns[:page_title] && "#{assigns[:page_title]} < " %>Manage &lt; Imagine CMS</title>
 
-    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/manage.css") %>"/>
-    <script src="<%= Routes.static_path(@conn, "/js/manage.js") %>" defer></script>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/assets/css/manage.css") %>"/>
+    <script src="<%= Routes.static_path(@conn, "/assets/js/manage.js") %>" defer></script>
   </head>
 
   <body id="imagine-app" class="semantic-ui">

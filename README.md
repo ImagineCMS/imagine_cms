@@ -44,14 +44,15 @@ Pick any 5. 😀
 
 Already in use in production, for sites that don't need these features yet to be ported over from Imagine 5:
 
-* Photo galleries
-* Scheduling/expiration of posts
-* Page list RSS feed
 * User permissions and draft approval system
+* Scheduling future posts & automatic expiration
+* Page list RSS feed
+* Photo galleries
 * Search function
 
 Planned features that go far beyond Imagine 5:
 
+* TailwindCSS compatibility
 * Multisite capability: Easily add new (sub-)domains (each with its own layout and templates) and move pages between them
 * Newsletter subscriptions: Users can subscribe to page list updates and receive daily/weekly email notifications
 
@@ -69,7 +70,7 @@ See [MIGRATE.md](https://github.com/ImagineCMS/imagine_cms/blob/main/MIGRATE.md)
 
 ## Getting Help
 
-You can get paid support and hosting for Imagine CMS straight its creators: [Bigger Bird Creative, Inc.](https://biggerbird.com)
+You can get paid support and hosting for Imagine CMS straight from the creators: [Bigger Bird Creative, Inc.](https://biggerbird.com)
 
 ## Contributing
 
@@ -77,4 +78,4 @@ Issues and pull requests welcome, especially related to code cleanup, testing, a
 
 ## Note re: associations
 
-Foreign keys are intentionally not created, to allow restoration of CMS objects found to be deleted by accident (using version entries). A cleanup process (not yet created) will delete old orphaned objects at a later time, after a certain amount of time has passed.
+Foreign keys are intentionally not created, to allow restoration of CMS objects later found to be deleted by accident (using version entries). In the future, a cleanup process will delete old orphaned objects after a certain amount of time has passed.

@@ -28,14 +28,14 @@
 </div>
 
 <div class="page-browser">
-  <div class="track" style="width: <%= length(columns) * 200 %>px">
+  <div class="track" style={"width: #{length(columns) * 200}px"}>
     <%= for column <- columns do %>
     <div class="column">
       <div class="ui selection list">
         <%= for page <- Enum.sort(column, &(&1.name <= &2.name)) do %>
           <%= cond do %>
           <%= page.path == "" -> %>
-            <a href="#" id="cms-page-<%= page.id %>" class="item<%= if @cms_page.id == page.id, do: " selected" %>" phx-click="select-page" phx-value-cms-page-id="<%= page.id %>">
+            <a href="#" id={"cms-page-#{page.id}"} class={"item#{if @cms_page.id == page.id, do: " selected"}"} phx-click="select-page" phx-value-cms-page-id={page.id}>
               <i class="home icon"></i>
               <div class="content">
                 <div class="header">Home</div>
@@ -43,7 +43,7 @@
               </div>
             </a>
           <% page.id == "_trash" -> %>
-            <a href="#" class="item<%= if @cms_page.id == "_trash", do: " selected" %>" style="margin-top: 20px;" phx-click="select-page" phx-value-cms-page-id="_trash">
+            <a href="#" class={"item#{if @cms_page.id == "_trash", do: " selected"}"} style="margin-top: 20px;" phx-click="select-page" phx-value-cms-page-id="_trash">
               <i class="trash icon"></i>
               <div class="content">
                 <div class="header">Trash</div>
@@ -51,7 +51,7 @@
               </div>
             </a>
           <% true -> %>
-            <a href="#" id="cms-page-<%= page.id %>" class="item<%= if @cms_page.id == page.id, do: " selected" %><%= if page.published_version == -1, do: " offline" %>" phx-click="select-page" phx-value-cms-page-id="<%= page.id %>">
+            <a href="#" id={"cms-page-#{page.id}"} class={"item#{if @cms_page.id == page.id, do: " selected"}#{if page.published_version == -1, do: " offline"}"} phx-click="select-page" phx-value-cms-page-id={page.id}>
             <%= cond do %>
               <% page.published_version == -1 -> %>
                 <i class="eye slash icon"></i>

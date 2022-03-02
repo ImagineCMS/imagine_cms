@@ -2,7 +2,7 @@ defmodule ImagineWeb.Live.CmsPage.Browser do
   @moduledoc """
   Live View implementation for cms page column browser
   """
-
+  # use ImagineWeb, :live_view
   use Phoenix.LiveView
 
   alias Imagine.Repo

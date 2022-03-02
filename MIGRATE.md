@@ -8,4 +8,4 @@ Template syntax is close, but not identical. To allow Imagine 5 and 6 to run tog
 
 * The deprecated `insert_object` style calls have been removed.
 * Naturally, any Ruby/Rails/ERB stuff must be removed or rewritten.
-* No "dynamic" page list configuration is possible from within a page. All configuration must be done at the template level. This may change in the near future.
+* No "dynamic" page list configuration is possible from within a page. All configuration must be done at the template level. This may change in the future.

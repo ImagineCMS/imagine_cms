@@ -91,13 +91,11 @@ defmodule Imagine.CmsTemplates do
         result = Repo.update(changeset)
 
         case result do
-          {:ok, cms_template} ->
-            {:ok, _version} = create_cms_template_version(cms_template)
-            result
-
-          _ ->
-            result
+          {:ok, cms_template} -> {:ok, _version} = create_cms_template_version(cms_template)
+          _ -> nil
         end
+
+        result
 
       {:error, err} ->
         {:error,
@@ -189,9 +187,24 @@ defmodule Imagine.CmsTemplates do
 
   """
   def create_cms_template_version(%CmsTemplate{} = cms_template) do
-    %CmsTemplateVersion{}
-    |> CmsTemplateVersion.changeset(cms_template)
-    |> Repo.insert()
+    result =
+      %CmsTemplateVersion{}
+      |> CmsTemplateVersion.changeset(cms_template)
+      |> Repo.insert()
+
+    case result do
+      {:ok, version} ->
+        # write the template out to disk under priv/templates
+        path = Path.join("priv", "templates")
+        if !File.dir?(path), do: File.mkdir(path)
+        path = Path.join(path, "#{version.name}.html")
+        File.write(path, version.content_eex)
+
+      _ ->
+        nil
+    end
+
+    result
   end
 
   @doc """
