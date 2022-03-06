@@ -1,5 +1,3 @@
-<% columns = cms_page_browser(@cms_page) %>
-
 <div class="button-bar" style="height: 40px;">
   <%= if @cms_page.discarded_at do %>
     <%= if @cms_page.id == "_trash" do %>
@@ -27,12 +25,14 @@
   <% end %>
 </div>
 
+<% columns = cms_page_browser(@cms_page) %>
+
 <div class="page-browser">
   <div class="track" style={"width: #{length(columns) * 200}px"}>
     <%= for column <- columns do %>
     <div class="column">
       <div class="ui selection list">
-        <%= for page <- Enum.sort(column, &(&1.name <= &2.name)) do %>
+        <%= for page <- Enum.sort_by(column, & [&1.position || 0, &1.name]) do %>
           <%= cond do %>
           <%= page.path == "" -> %>
             <a href="#" id={"cms-page-#{page.id}"} class={"item#{if @cms_page.id == page.id, do: " selected"}"} phx-click="select-page" phx-value-cms-page-id={page.id}>
