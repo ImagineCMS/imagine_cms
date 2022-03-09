@@ -197,7 +197,7 @@ defmodule Imagine.CmsTemplates do
         # write the template out to disk under priv/templates
         path = Path.join("priv", "templates")
         if !File.dir?(path), do: File.mkdir(path)
-        path = Path.join(path, "#{version.name}.html")
+        path = Path.join(path, "#{version.name}.html.eex")
         File.write(path, version.content_eex)
 
       _ ->
@@ -375,8 +375,23 @@ defmodule Imagine.CmsTemplates do
 
   """
   def create_cms_snippet_version(%CmsSnippet{} = cms_snippet) do
-    %CmsSnippetVersion{}
-    |> CmsSnippetVersion.changeset(cms_snippet)
-    |> Repo.insert()
+    result =
+      %CmsSnippetVersion{}
+      |> CmsSnippetVersion.changeset(cms_snippet)
+      |> Repo.insert()
+
+    case result do
+      {:ok, version} ->
+        # write the template out to disk under priv/snippets
+        path = Path.join("priv", "snippets")
+        if !File.dir?(path), do: File.mkdir(path)
+        path = Path.join(path, "#{version.name}.html.eex")
+        File.write(path, version.content_eex)
+
+      _ ->
+        nil
+    end
+
+    result
   end
 end
