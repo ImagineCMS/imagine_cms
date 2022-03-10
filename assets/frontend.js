@@ -186,6 +186,13 @@ window.Imagine = {
   </div>`;
       document.body.prepend(toolbar);
     }
+
+    // push down any fixed elements
+    setTimeout(() => {
+      document.querySelectorAll(".fixed").forEach((el) => {
+        el.style.top = el.offsetTop + toolbar.offsetHeight + 'px';
+      });
+    });
   },
 
   imageUploadHandler: function (_formData, files, _event, upload) {
@@ -287,6 +294,13 @@ window.Imagine = {
       e.preventDefault();
       window.removeEventListener("beforeunload", warnAboutUnsavedChanges);
       document.getElementById("Imagine-Edit-Content-Form").submit();
+    });
+
+    // push down any fixed elements
+    setTimeout(() => {
+      document.querySelectorAll(".fixed").forEach((el) => {
+        el.style.top = el.offsetTop + toolbar.offsetHeight + 'px';
+      });
     });
   },
 
