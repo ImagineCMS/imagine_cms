@@ -57,6 +57,10 @@ defmodule Imagine.CmsTemplates.RenderViewHelpers do
     end
   end
 
+  def sort_pages(pages, _, :random) do
+    Enum.shuffle(pages)
+  end
+
   def sort_pages(pages, key1, :asc) do
     Enum.sort(pages, &cmp_asc(&1, &2, key1))
   end
@@ -93,6 +97,8 @@ defmodule Imagine.CmsTemplates.RenderViewHelpers do
         opts[:primary_sort_key] || :article_date,
         opts[:primary_sort_direction] || :desc
       )
+      |> Enum.drop(opts[:item_offset] || 0)
+      |> Enum.take(opts[:item_count] || 10)
 
     output = render_page_list(pages, cms_page, opts)
 

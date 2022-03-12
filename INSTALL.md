@@ -1,6 +1,6 @@
 # Installation Process
 
-*This process could definitely be streamlined further. PRs welcome.*
+*This process could definitely be streamlined further (and should be updated to use esbuild over webpack). PRs welcome.*
 
 Add `imagine_cms` to your list of dependencies in `mix.exs`:
 
