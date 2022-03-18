@@ -220,13 +220,17 @@ defmodule Imagine.CmsPages.CmsPage do
   end
 
   defp put_date(changeset, attr, attrs) when is_atom(attr) do
-    if val = attrs[Atom.to_string(attr)],
+    val = attrs[Atom.to_string(attr)]
+
+    if val,
       do: put_change(changeset, attr, format_date(val)),
       else: changeset
   end
 
   defp put_date_with_default(changeset, attr, attrs) when is_atom(attr) do
-    if val = attrs[Atom.to_string(attr)],
+    val = attrs[Atom.to_string(attr)]
+
+    if val,
       do: put_change(changeset, attr, format_date(val)),
       else: put_change(changeset, attr, NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second))
   end
