@@ -79,12 +79,15 @@ defmodule Imagine.CmsTemplates.RenderViewHelpers do
     Map.get(a, key) == Map.get(b, key)
   end
 
+  def cmp_lt(a = %NaiveDateTime{}, b = %NaiveDateTime{}), do: NaiveDateTime.compare(a, b) != :gt
+  def cmp_lt(a, b), do: a <= b
+
   def cmp_asc(a, b, key) do
-    Map.get(a, key) <= Map.get(b, key)
+    cmp_lt(Map.get(a, key), Map.get(b, key))
   end
 
-  def cmp_desc(a, b, key) do
-    Map.get(b, key) <= Map.get(a, key)
+  def cmp_desc(b, a, key) do
+    cmp_lt(Map.get(a, key), Map.get(b, key))
   end
 
   def page_list(%Plug.Conn{assigns: %{cms_page: cms_page}}, obj_name, opts) do
