@@ -1,108 +1,37 @@
-import 'jquery';
+const $ = require("jquery");
+window.$ = window.jQuery = $;
 
-import CodeMirror from 'codemirror/lib/codemirror.js';;
-import 'codemirror/lib/codemirror.css';
+import CodeMirror from 'codemirror/lib/codemirror.js';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
 window.CodeMirror = CodeMirror;
 
-import "./semantic/dist/components/button.css";
-import "./semantic/dist/components/checkbox.css";
-import "./semantic/dist/components/checkbox";
-import "./semantic/dist/components/dimmer.css";
-import "./semantic/dist/components/dimmer.js";
-import "./semantic/dist/components/dropdown.css";
-import "./semantic/dist/components/dropdown.js";
-import "./semantic/dist/components/form.css";
-import "./semantic/dist/components/form.js";
-import "./semantic/dist/components/icon.css";
-import "./semantic/dist/components/modal.css";
-import "./semantic/dist/components/modal.js";
-import "./semantic/dist/components/toast.css";
-import "./semantic/dist/components/toast.js";
-import "./semantic/dist/components/transition.css";
-import "./semantic/dist/components/transition.js";
-import "./semantic.scss";
-import "./semantic.js";
-
-import "./frontend.scss";
+require("./semantic/dist/components/checkbox.js");
+require("./semantic/dist/components/dimmer.js");
+require("./semantic/dist/components/dropdown.js");
+require("./semantic/dist/components/form.js");
+require("./semantic/dist/components/modal.js");
+require("./semantic/dist/components/toast.js");
+require("./semantic/dist/components/transition.js");
+require("./semantic.js");
 
 
 window.Imagine = {
   start(config) {
     Imagine.config = {
-      editor: 'redactor',
-      redactor: {
-        removeScript: false,
-        toolbarExternal: '#Imagine-RTE-Toolbar',
-        plugins: [],
-        clips: [],
-        imageResizable: true,
-        imagePosition: true,
-        imageUpload: this.imageUploadHandler,
-        fileUpload: this.fileUploadHandler,
-      },
-      article: {
-        plugins: [
-          'blockcode',
-          // 'counter',
-          // 'inlineformat',
-          'reorder',
-          // 'selector',
-        ],
-        toolbar: {
-          sticky: false
-        },
-        image: {
-          upload: (upload, data) => { this.handleUpload(upload, data) },
-          multiple: false
-        },
-        format: {
-          "p": {
-            title: '## format.normal-text ##',
-            params: { tag: 'p', block: 'paragraph' }
-          },
-          "h1": {
-            title: '<span style="font-size: 18px; font-weight: bold;">## format.large-heading ## (H1)</span>',
-            params: { tag: 'h1', block: 'heading' }
-          },
-          "h2": {
-            title: '<span style="font-size: 16px; font-weight: bold;">## format.medium-heading ## (H2)</span>',
-            params: { tag: 'h2', block: 'heading' }
-          },
-          "h3": {
-            title: '<span style="font-weight: bold;">## format.small-heading ## (H3)</span>',
-            params: { tag: 'h3', block: 'heading' }
-          },
-          "ul": {
-            title: '&bull; ## format.unordered-list ##',
-            params: { tag: 'ul', block: 'list' }
-          },
-          "ol": {
-            title: '1. ## format.ordered-list ##',
-            params: { tag: 'ol', block: 'list' }
-          }
-        },
-        subscribe: {
-          'editor.focus': function () {
-            document.body.querySelectorAll(".arx-toolbar-container").forEach((el) => { el.style.display = "none" });
-            this.container.$toolbar.nodes[0].style.display = "flex";
-          },
-          'editor.content.change': function () {
-            this.unsavedChanges = true;
-          }
-        }
-      }
+      toolbarStickyOffset: 52,
+      toolbarStickyOffsetMobile: null,
+      hugerte: {}
     };
 
     // merge in config if provided... not quite a deep merge but enough for now
     if (config) {
-      if (config.article) config.article = { ...this.config.article, ...config.article };
-      if (config.redactor) config.redactor = { ...this.config.redactor, ...config.redactor };
+      if (config.hugerte) config.hugerte = { ...this.config.hugerte, ...config.hugerte };
       this.config = { ...this.config, ...config };
     }
   },
 
   config: {},
+  activeEditor: null,
 
   showViewToolbar: (id, path, display_version_options, published_version_options, published_version_class) => {
     const toolbar = document.createElement("div");
@@ -195,62 +124,199 @@ window.Imagine = {
     });
   },
 
-  imageUploadHandler: function (_formData, files, _event, upload) {
-    var placeholders = {};
+  currentEditor: () => {
+    if (Imagine.activeEditor) return Imagine.activeEditor;
+    if (window.hugerte && window.hugerte.activeEditor) return window.hugerte.activeEditor;
 
-    for (var i = 0; i < files.length; i++) {
-      let file = files[i];
-      var reader = new FileReader();
-
-      let id = `file-${Imagine.uploadCounter++}`;
-      placeholders[id] = { "id": id, "url": "/images/page_loading.gif" };;
-
-      reader.addEventListener("load", function () {
-        let image = document.querySelector(`img[data-image='${id}']`);
-        image.src = this.result;
-        image.alt = file.name;
-        image.dataset.filename = file.name;
-        delete image.dataset.image;
-        // upload.editor.insertion.insertHtml(image.outerHTML);
-      }, false);
-
-      reader.readAsDataURL(file);
-    };
-
-    return placeholders;
+    const element = document.querySelector(".imagine-cms-rte");
+    return element && window.hugerte ? window.hugerte.get(element.id) : null;
   },
 
-  fileUploadHandler: function (formData, files, _event, upload) {
-    var placeholders = {};
+  syncEditors: () => {
+    if (window.hugerte && window.hugerte.triggerSave) window.hugerte.triggerSave();
 
-    for (var i = 0; i < files.length; i++) {
-      let file = files[i];
-      var reader = new FileReader();
+    document.querySelectorAll(".imagine-cms-rte").forEach((element) => {
+      const textarea = document.getElementById(element.dataset.textareaId);
+      const editor = window.hugerte ? window.hugerte.get(element.id) : null;
 
-      let id = `file-${Imagine.uploadCounter++}`;
-      placeholders[id] = { "id": id, "url": "" };
+      if (textarea) textarea.value = editor ? editor.getContent() : element.innerHTML;
+    });
+  },
 
+  insertHtml: (html) => {
+    const editor = Imagine.currentEditor();
+    if (!editor) return false;
+
+    editor.focus();
+    editor.insertContent(html);
+    Imagine.unsavedChanges = true;
+    return true;
+  },
+
+  chooseLocalFile: (accept, callback) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = accept;
+    input.style.display = "none";
+    document.body.appendChild(input);
+
+    input.addEventListener("change", () => {
+      const file = input.files && input.files[0];
+      if (!file) {
+        input.remove();
+        return;
+      }
+
+      const reader = new FileReader();
       reader.addEventListener("load", function () {
-        let link = document.querySelector(`a[data-file='${id}']`);
-        link.href = this.result;
-        link.dataset.filename = file.name;
-        delete link.dataset.file;
-
-        if (link.innerHTML.trim().length == 0) link.innerText = file.name;
-        // upload.editor.insertion.insertHtml(link.outerHTML);
+        callback(file, this.result);
+        input.remove();
       }, false);
-
       reader.readAsDataURL(file);
-    };
+    });
 
-    return placeholders;
+    input.click();
+  },
+
+  insertLocalImage: () => {
+    Imagine.chooseLocalFile("image/*", (file, dataUrl) => {
+      const alt = file.name.replace(/\.[^.]+$/, "");
+      const image = document.createElement("img");
+      image.src = dataUrl;
+      image.alt = alt;
+      image.dataset.filename = file.name;
+
+      Imagine.insertHtml(image.outerHTML);
+    });
+  },
+
+  insertLocalFileLink: () => {
+    Imagine.chooseLocalFile("", (file, dataUrl) => {
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.dataset.filename = file.name;
+      link.innerText = file.name;
+
+      Imagine.insertHtml(link.outerHTML);
+    });
+  },
+
+  nudgeToolbarLayout: () => {
+    window.clearTimeout(Imagine.resizeNudgeTimer);
+    Imagine.resizeNudgeTimer = window.setTimeout(() => {
+      window.dispatchEvent(new Event("resize"));
+    }, 30);
+  },
+
+  bindScrollNudges: (element) => {
+    let current = element.parentElement;
+
+    while (current && current !== document.body) {
+      const style = window.getComputedStyle(current);
+      const scrollable = /(auto|scroll|overlay)/.test(style.overflow + style.overflowX + style.overflowY);
+
+      if (scrollable && !current.dataset.imagineCmsResizeNudge) {
+        current.dataset.imagineCmsResizeNudge = "true";
+        current.addEventListener("scroll", Imagine.nudgeToolbarLayout, { passive: true });
+      }
+
+      current = current.parentElement;
+    }
+
+    if (!document.documentElement.dataset.imagineCmsResizeNudge) {
+      document.documentElement.dataset.imagineCmsResizeNudge = "true";
+      window.addEventListener("scroll", Imagine.nudgeToolbarLayout, { passive: true });
+    }
+  },
+
+  buildToolbar: () => {
+    return "undo redo | blocks | bold italic underline strikethrough removeformat | " +
+      "alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | " +
+      "link table cmsimage filelink code";
+  },
+
+  loadHugeRTE: () => {
+    if (window.hugerte) return Promise.resolve(window.hugerte);
+    if (Imagine.loadingHugeRTE) return Imagine.loadingHugeRTE;
+
+    Imagine.loadingHugeRTE = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "/assets/vendor/hugerte/hugerte.min.js";
+      script.onload = () => resolve(window.hugerte);
+      script.onerror = () => reject(new Error("Unable to load HugeRTE"));
+      document.head.appendChild(script);
+    });
+
+    return Imagine.loadingHugeRTE;
+  },
+
+  initHugeRTE: () => {
+    const regions = Array.from(document.querySelectorAll(".imagine-cms-rte"));
+    if (regions.length === 0 || !window.hugerte) return;
+
+    regions.forEach((region) => {
+      if (!region.id) region.id = `imagine-cms-rte-${Math.random().toString(36).slice(2)}`;
+    });
+
+    let stickyOffset = Imagine.config.toolbarStickyOffset || 52;
+    if (Imagine.config.toolbarStickyOffsetMobile && window.innerWidth < 768) {
+      stickyOffset = Imagine.config.toolbarStickyOffsetMobile;
+    }
+
+    window.hugerte.init({
+      selector: ".imagine-cms-rte",
+      inline: true,
+      promotion: false,
+      branding: false,
+      menubar: false,
+      toolbar_mode: "sliding",
+      toolbar_sticky: true,
+      toolbar_sticky_offset: stickyOffset,
+      base_url: "/assets/vendor/hugerte",
+      suffix: ".min",
+      plugins: "autolink code image link lists quickbars searchreplace table",
+      toolbar: Imagine.buildToolbar(),
+      quickbars_insert_toolbar: "cmsimage filelink table",
+      quickbars_selection_toolbar: "bold italic underline | link",
+      extended_valid_elements: "*[*]",
+      valid_children: "+body[style|script],+div[style|script]",
+      convert_urls: false,
+      entity_encoding: "raw",
+      setup: (editor) => {
+        editor.on("focus", () => {
+          Imagine.activeEditor = editor;
+        });
+        editor.on("init", () => {
+          Imagine.bindScrollNudges(editor.getElement());
+        });
+        editor.on("change input undo redo setcontent", () => {
+          Imagine.unsavedChanges = true;
+          const textarea = document.getElementById(editor.getElement().dataset.textareaId);
+
+          if (textarea) {
+            textarea.value = editor.getContent();
+            textarea.dispatchEvent(new CustomEvent("imagine-cms:content-change", { bubbles: true }));
+          }
+        });
+        editor.ui.registry.addButton("cmsimage", {
+          text: "Image",
+          tooltip: "Insert image",
+          onAction: Imagine.insertLocalImage
+        });
+        editor.ui.registry.addButton("filelink", {
+          text: "File",
+          tooltip: "Create download link",
+          onAction: Imagine.insertLocalFileLink
+        });
+      },
+      ...Imagine.config.hugerte
+    });
   },
 
   initEditor: () => {
     // set to true when text editor content changes
     // FIXME: also check for other things in the future, like page list settings
     Imagine.unsavedChanges = false;
-    Imagine.uploadCounter = 0;
 
     const warnAboutUnsavedChanges = (e) => {
       const confirmationMessage = "This page is asking you to confirm that you want to leave - data you have entered may not be saved.";
@@ -277,23 +343,20 @@ window.Imagine = {
     document.body.prepend(toolbar);
     toolbar.style.display = "block";
 
-    // add editors
-    const editorSelector = 'form#Imagine-Edit-Content-Form .Imagine-CmsPageObject-TextEditor .rteditor';
-
-    switch (Imagine.config.editor) {
-      case 'redactor':
-        $R(editorSelector, Imagine.config.redactor);
-        break;
-
-      case 'article':
-        window.ArticleEditor(editorSelector, Imagine.config.article);
-        break;
-    }
+    Imagine.loadHugeRTE().then(() => Imagine.initHugeRTE());
 
     document.getElementById("Imagine-Save-Page-Content-Button").addEventListener("click", (e) => {
       e.preventDefault();
+      Imagine.syncEditors();
+      Imagine.unsavedChanges = false;
       window.removeEventListener("beforeunload", warnAboutUnsavedChanges);
       document.getElementById("Imagine-Edit-Content-Form").submit();
+    });
+
+    document.getElementById("Imagine-Edit-Content-Form").addEventListener("submit", () => {
+      Imagine.syncEditors();
+      Imagine.unsavedChanges = false;
+      window.removeEventListener("beforeunload", warnAboutUnsavedChanges);
     });
 
     // push down any fixed elements
@@ -302,29 +365,5 @@ window.Imagine = {
         el.style.top = el.offsetTop + toolbar.offsetHeight + 'px';
       });
     });
-  },
-
-  handleUpload: (upload, data) => {
-    // loop files (there should only be one, using FileReader makes multiple files difficult)
-    for (let i = 0; i < data.files.length; i++) {
-      let file = data.files[i];
-      let reader = new FileReader();
-
-      // set up handler for when result is ready
-      reader.addEventListener("load", function () {
-        let response = {};
-
-        response[`file-1`] = {
-          "url": this.result,
-          // "id": "some-id"
-        };
-
-        // call the upload complete callback
-        upload.complete(response, data.e);
-      }, false);
-
-      // then start the read
-      reader.readAsDataURL(file);
-    }
   }
 };

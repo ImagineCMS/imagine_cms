@@ -19,10 +19,10 @@ defmodule ImagineWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: ImagineWeb
+      use Phoenix.Controller, formats: [html: "View"]
 
       import Plug.Conn
-      import ImagineWeb.Gettext
+      use Gettext, backend: ImagineWeb.Gettext
       alias ImagineWeb.Router.Helpers, as: Routes
     end
   end
@@ -36,7 +36,7 @@ defmodule ImagineWeb do
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
-        only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
+        only: [view_module: 1, view_template: 1]
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
@@ -73,7 +73,7 @@ defmodule ImagineWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import ImagineWeb.Gettext
+      use Gettext, backend: ImagineWeb.Gettext
     end
   end
 
@@ -86,7 +86,9 @@ defmodule ImagineWeb do
   defp view_helpers do
     quote do
       # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
+      import Phoenix.HTML
+      import Phoenix.HTML.Form
+      use PhoenixHTMLHelpers
 
       # Import LiveView helpers (live_render, live_component, live_patch, etc)
       import Phoenix.Component
@@ -95,7 +97,7 @@ defmodule ImagineWeb do
       import Phoenix.View
 
       import ImagineWeb.ErrorHelpers
-      import ImagineWeb.Gettext
+      use Gettext, backend: ImagineWeb.Gettext
       alias ImagineWeb.Router.Helpers, as: Routes
     end
   end

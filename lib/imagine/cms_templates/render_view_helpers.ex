@@ -3,7 +3,8 @@ defmodule Imagine.CmsTemplates.RenderViewHelpers do
   Defines CMS template helpers like text_editor in View mode (i.e. the rendered output)
   """
 
-  use Phoenix.HTML
+  import Phoenix.HTML
+  use PhoenixHTMLHelpers
 
   alias Imagine.CmsPages
   alias Imagine.CmsPages.{CmsPage, CmsPageObject}

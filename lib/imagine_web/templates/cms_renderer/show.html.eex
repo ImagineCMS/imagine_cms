@@ -5,10 +5,10 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      <%= if info = get_flash(@conn, :notice) || get_flash(@conn, :info) do %>
+      <%= if info = Phoenix.Flash.get(@flash, :notice) || Phoenix.Flash.get(@flash, :info) do %>
         $('body').toast({ message: `<%= info %>`, class: 'grey' });
       <% end %>
-      <%= if err = get_flash(@conn, :error) do %>
+      <%= if err = Phoenix.Flash.get(@flash, :error) do %>
         $('body').toast({ message: `<%= err %>`, class: 'orange' });
       <% end %>
     });

@@ -3,7 +3,8 @@ defmodule Imagine.CmsTemplates.RenderEditHelpers do
   Defines CMS template helpers like text_editor in Edit mode (i.e. editor controls)
   """
 
-  use Phoenix.HTML
+  import Phoenix.HTML
+  use PhoenixHTMLHelpers
   alias Imagine.CmsPages.CmsPageObject
   alias Imagine.CmsTemplates.RenderViewHelpers
 
@@ -44,16 +45,27 @@ defmodule Imagine.CmsTemplates.RenderEditHelpers do
 
     atom = String.to_atom("cms_page_objects[]")
 
+    source_id = "CmsPageObject-#{obj.id}"
+    editor_id = "#{source_id}-editor"
+
     content_tag :div,
       id: "CmsPageObject-#{obj.id}-container",
       class: "Imagine-CmsPageObject-TextEditor" do
       [
-        # content_tag(:div, raw(obj.content), id: "CmsPageObject-#{obj.id}"),
         textarea(atom, :content,
           value: raw(obj.content),
           name: "cms_page[objects][#{obj.id}][content]",
-          id: "CmsPageObject-#{obj.id}",
-          class: "rteditor"
+          id: source_id,
+          class: "imagine-cms-rte-source",
+          hidden: true
+        ),
+        content_tag(:div, raw(obj.content || ""),
+          id: editor_id,
+          class: "imagine-cms-rte",
+          contenteditable: "true",
+          data: [
+            textarea_id: source_id
+          ]
         )
         # hidden_input(atom, :id, value: obj.id, name: "cms_page[objects][#{obj.id}][id]"),
         # hidden_input(atom, :cms_page_version,

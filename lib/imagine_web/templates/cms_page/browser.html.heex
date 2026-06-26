@@ -34,7 +34,7 @@
       <div class="ui selection list">
         <%= for page <- Enum.sort_by(column, & [&1.position || 0, &1.name]) do %>
           <%= cond do %>
-          <%= page.path == "" -> %>
+          <% page.path == "" -> %>
             <a href="#" id={"cms-page-#{page.id}"} class={"item#{if @cms_page.id == page.id, do: " selected"}"} phx-click="select-page" phx-value-cms-page-id={page.id}>
               <i class="home icon"></i>
               <div class="content">

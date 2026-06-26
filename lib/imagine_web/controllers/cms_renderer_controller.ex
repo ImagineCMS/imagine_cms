@@ -5,7 +5,7 @@ defmodule ImagineWeb.CmsRendererController do
   alias Imagine.CmsPages.CmsPage
   alias Imagine.CmsTemplates
   alias Imagine.CmsTemplates.CmsTemplate
-  alias Phoenix.HTML
+  alias PhoenixHTMLHelpers.Tag
 
   def show(conn, %{"path" => path_elements}) do
     case path_elements |> Enum.reverse() do
@@ -190,6 +190,6 @@ defmodule ImagineWeb.CmsRendererController do
       end
 
     for {version, str} <- version_tuples,
-        do: HTML.Tag.content_tag(:option, str, value: version, selected: version == selected)
+        do: Tag.content_tag(:option, str, value: version, selected: version == selected)
   end
 end

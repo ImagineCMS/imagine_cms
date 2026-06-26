@@ -18,6 +18,7 @@
   document.addEventListener("keydown", (e) => {
     if (e.code == 'KeyS' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
+      Imagine.syncEditors();
       document.getElementById('Imagine-Edit-Content-Form').submit();
       return false;
     }

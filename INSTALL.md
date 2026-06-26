@@ -1,7 +1,5 @@
 # Installation Process
 
-*This process could definitely be streamlined further (and should be updated to use esbuild over webpack). PRs welcome.*
-
 Add `imagine_cms` to your list of dependencies in `mix.exs`:
 
 ```elixir
@@ -20,24 +18,19 @@ Add `imagine_cms` to your list of dependencies in `package.json`:
   }
 ```
 
-Choose and configure your editor (default is [Redactor](https://imperavi.com/redactor), but you must BYOL), then import `imagine_cms`:
-```javascript
-window.ImagineConfig = {
-  // editor: 'article',
-  editor: 'redactor',
-  redactor: {
-    plugins: ['alignment', 'clips', 'properties', 'table', 'video', 'widget'],
-    clips: [
-      ['Lorem ipsum...', 'Lorem...'],
-      ['Red label', '<span class="label-red">Label</span>']
-    ],
-  }
-}
+Import and start `imagine_cms`:
 
+```javascript
 import "imagine_cms";
+
+Imagine.start({
+  // optional HugeRTE overrides
+  hugerte: {}
+});
 ```
 
-Import the CMS editor styles, either via webpack:
+Import the CMS editor styles:
+
 ```javascript
 import "../../deps/imagine_cms/priv/static/css/imagine_cms.css";
 ```
@@ -45,22 +38,6 @@ import "../../deps/imagine_cms/priv/static/css/imagine_cms.css";
 Or a CSS tool that supports importing via the package.json "style" attrbute:
 ```css
 @import "imagine_cms"
-```
-
-Also make sure to include the js/css for your selected editor in your own webpack bundle. Here is a Redactor example, including the recommended plugins:
-
-```javascript
-import "./vendor/redactor/redactor.css";
-import "./vendor/redactor/redactor.js";
-import "./vendor/redactor/_plugins/alignment/alignment.js";
-import "./vendor/redactor/_plugins/clips/clips.css";
-import "./vendor/redactor/_plugins/clips/clips.js";
-import "./vendor/redactor/_plugins/properties/properties.js";
-import "./vendor/redactor/_plugins/table/table.js";
-import "./vendor/redactor/_plugins/variable/variable.css";
-import "./vendor/redactor/_plugins/variable/variable.js";
-import "./vendor/redactor/_plugins/video/video.js";
-import "./vendor/redactor/_plugins/widget/widget.js";
 ```
 
 Configure the database (`dev.exs` and `prod_secret.exs` in a standard Phoenix app).
@@ -83,4 +60,13 @@ Finally, add a new Plug.Static call to your endpoint, right after the existing o
     at: "/",
     from: "./public",
     only: ~w(assets)
+```
+
+Also serve HugeRTE's static runtime assets from the dependency:
+
+```elixir
+  plug Plug.Static,
+    at: "/assets/vendor/hugerte",
+    from: {:imagine_cms, "priv/static/vendor/hugerte"},
+    gzip: false
 ```

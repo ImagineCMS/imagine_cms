@@ -1,3 +1,16 @@
+@import url("/assets/vendor/codemirror/codemirror.css");
+@import url("/assets/dist/components/button.css");
+@import url("/assets/dist/components/checkbox.css");
+@import url("/assets/dist/components/dimmer.css");
+@import url("/assets/dist/components/dropdown.css");
+@import url("/assets/dist/components/form.css");
+@import url("/assets/dist/components/icon.css");
+@import url("/assets/dist/components/modal.css");
+@import url("/assets/dist/components/toast.css");
+@import url("/assets/dist/components/transition.css");
+
+@import "semantic";
+
 body { margin: 0; padding: 0; }
 
 // #Imagine-View-Toolbar {
@@ -141,31 +154,39 @@ body { margin: 0; padding: 0; }
 }
 /*** </codemirror> ***/
 
-/*** <article-editor> ***/
-.Imagine-CmsPageObject-TextEditor {
-  .arx-top-container {
-    position: fixed;
-    top: 45px;
-    left: 0;
-    z-index: 10000;
-    border: 1px solid #aaa;
-    border-width: 0 1px 1px 0;
+/*** <hugerte> ***/
+.imagine-cms-rte-source[hidden] {
+  display: none !important;
+}
 
-    .arx-toolbar-container { display: none; position: relative; }
-  }
+.imagine-cms-rte {
+  box-sizing: border-box;
+  display: flow-root;
+  width: 100%;
+  min-height: 90px;
+  margin: 14px 0;
+  padding: 12px;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.78);
+  border: 3px dashed #7b8c9c;
+  border-radius: 4px;
+  outline: none;
+  scroll-margin-top: 78px;
 }
-.arx-tooltip {
-  position: absolute;
-  z-index: 10001;
-}
-/*** </article-editor> ***/
 
-/*** <redactor> ***/
-#Imagine-RTE-Toolbar {
-  padding: 10px 0 0 4px;
+.imagine-cms-rte:focus,
+.imagine-cms-rte.mce-edit-focus {
+  background: #ffffff;
+  border-color: #1f6feb;
+  box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.16);
 }
-.redactor-dropdown, .re-button-tooltip { z-index: 10001;}
-/*** </redactor> ***/
+
+.tox.tox-tinymce-inline,
+.tox.tox-silver-sink,
+.tox .tox-menu {
+  z-index: 10010 !important;
+}
+/*** </hugerte> ***/
 
 /*** <summernote> ***/
 .Imagine-CmsPageObject-TextEditor {

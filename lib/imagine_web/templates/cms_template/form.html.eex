@@ -80,7 +80,7 @@
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.code == 'KeyS' && (e.ctrlKey || e.metaKey)) {
+    if (e.key == 's' && (e.ctrlKey || e.metaKey)) {
       e.preventDefault();
       document.getElementById('imagine-template-form').submit();
       return false;

@@ -2,10 +2,10 @@
 // Import dependencies
 //
 
-import 'jquery';
+const $ = require("jquery");
+window.$ = window.jQuery = $;
 
-import CodeMirror from 'codemirror/lib/codemirror.js';;
-import 'codemirror/lib/codemirror.css';
+import CodeMirror from 'codemirror/lib/codemirror.js';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
 window.CodeMirror = CodeMirror;
 
@@ -17,17 +17,12 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken } });
 liveSocket.connect()
 
-import "./semantic/dist/semantic.min.js";
-import "./semantic/dist/semantic.min.css";
-import "./semantic.scss";
+require("./semantic/dist/semantic.min.js");
 // import "./semantic.js";
 
 import "./slideout.js";
-import "./slideout.css";
 
 // Import local files
 //
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
-
-import "./manage.scss";

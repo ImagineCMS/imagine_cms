@@ -1,7 +1,4 @@
 #!/bin/bash
 
-(cd assets && \
-  npm install && \
-  npm run deploy -- --config webpack-frontend.config.js && \
-  npm run deploy -- --config webpack-manage.config.js) && \
-  git add priv/static
+mix assets.setup && \
+  mix assets.deploy

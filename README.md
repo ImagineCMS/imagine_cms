@@ -28,7 +28,7 @@ Pick any 5. 😀
 
 * **Built to scale:** Designed to operate sites with thousands of pages each, with the potential to scale further. This is a CMS you won't outgrow.
 * **Drafts (version control):** Pages and templates are versioned. You can undo nearly anything. Don't be afraid to experiment!
-* **Edit your way:** Switch between WYSIWYG and straight HTML at any time. (NOTE: Requires [Redactor](https://imperavi.com/redactor) editor.)
+* **Edit your way:** Inline HugeRTE editing is built in, with saved content still stored as regular HTML.
 * **Redirects:** You can create redirects by yourself, within the CMS.
 
 ## Key Features for Managers

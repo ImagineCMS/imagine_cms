@@ -2,35 +2,17 @@
   "repository": {},
   "license": "Apache-2.0",
   "scripts": {
-    "deploy": "webpack --mode production",
-    "watch": "webpack --mode development --watch"
+    "deploy": "cd .. && mix assets.deploy"
   },
   "dependencies": {
+    "codemirror": "^5.65.2",
+    "fomantic-ui": "^2.8.8",
+    "hugerte": "1.0.11",
+    "jquery": "^3.6.0",
+    "moment": "^2.29.1",
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
-    "phoenix_live_view": "file:../deps/phoenix_live_view"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.17",
-    "@babel/preset-env": "^7.12.17",
-    "autoprefixer": "^9.8.6",
-    "babel-loader": "^8.2.2",
-    "codemirror": "^5.65.2",
-    "copy-webpack-plugin": "^5.1.1",
-    "css-loader": "^4.3.0",
-    "expose-loader": "^1.0.3",
-    "file-loader": "^6.2.0",
-    "fomantic-ui": "^2.8.8",
-    "jquery": "^3.6.0",
-    "mini-css-extract-plugin": "^0.11.3",
-    "moment": "^2.29.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.4",
-    "postcss-loader": "^3.0.0",
-    "sass": "^1.32.8",
-    "sass-loader": "^10.1.1",
-    "slideout": "^1.0.1",
-    "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^3.3.12"
+    "phoenix_live_view": "file:../deps/phoenix_live_view",
+    "slideout": "^1.0.1"
   }
 }
