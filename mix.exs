@@ -55,7 +55,6 @@ defmodule Imagine.MixProject do
       {:nebulex, "~> 1.2"},
       {:timex, "~> 3.6"},
       {:floki, ">= 0.0.0"},
-      {:nodejs, "~> 2.0"},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:dart_sass, "~> 0.7", runtime: Mix.env() == :dev},
       {:mix_test_watch, "~> 1.0", only: [:dev], runtime: false},

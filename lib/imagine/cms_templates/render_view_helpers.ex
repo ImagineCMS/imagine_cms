@@ -9,6 +9,7 @@ defmodule Imagine.CmsTemplates.RenderViewHelpers do
   alias Imagine.CmsPages
   alias Imagine.CmsPages.{CmsPage, CmsPageObject}
   # alias Imagine.CmsTemplates
+  alias Imagine.CmsTemplates.Handlebars
   alias Imagine.CmsTemplates.CmsTemplate
   alias Imagine.Repo
 
@@ -140,16 +141,16 @@ defmodule Imagine.CmsTemplates.RenderViewHelpers do
 
   def render_page_list(pages, containing_page, opts) do
     [
-      hbrender(opts[:header], containing_page),
+      render_handlebars(opts[:header], containing_page),
       render_page_list_pages(pages, containing_page, opts),
-      hbrender(opts[:footer], containing_page)
+      render_handlebars(opts[:footer], containing_page)
     ]
   end
 
-  def hbrender(nil, _context), do: ""
+  def render_handlebars(nil, _context), do: ""
 
-  def hbrender(content, context) do
-    NodeJS.call!("hbrender", [content, context], binary: true)
+  def render_handlebars(content, context) do
+    Handlebars.render(content, context)
   end
 
   def render_page_list_pages(cms_pages, containing_page, opts, index \\ 1)
@@ -161,8 +162,8 @@ defmodule Imagine.CmsTemplates.RenderViewHelpers do
       |> Map.put(:containing_page, containing_page)
       |> Map.put(:index, index)
 
-    # NOTE: the Jason encoder ultimately determines which attributes are exposed to hbrender
-    output = hbrender(opts[:template], context)
+    # NOTE: the Jason encoder ultimately determines which attributes are exposed to templates.
+    output = render_handlebars(opts[:template], context)
     [output, render_page_list_pages(cms_pages, containing_page, opts, index + 1)]
   end
 

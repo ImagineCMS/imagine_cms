@@ -13,8 +13,7 @@ restart (with a pause of a few seconds while the BEAM starts up, but no dropped 
 
 I recommend precompiling the assets locally (`npm run deploy`) and committing those to your repo
 before each deploy. It saves time and server resources (at the cost of inflating your repo a little).
-(For other Elixir apps, it would mean you don't need node/npm on the server, but Imagine still needs
-node installed to use Handlebars.)
+You don't need node/npm on the server unless you choose to build assets there.
 
 ## App Changes
 
@@ -153,7 +152,7 @@ mix local.hex
 mix local.rebar
 ```
 
-`bin/deploy` (uncomment the compilation lines if you want to run webpack on the server... I usually don't):
+`bin/deploy` (uncomment the compilation lines if you want to build assets on the server... I usually don't):
 ```
 #!/bin/bash
 

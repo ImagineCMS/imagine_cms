@@ -9,18 +9,7 @@ defmodule Imagine.Application do
     # List all child processes to be supervised
     children = [
       Imagine.Repo,
-      Imagine.Cache,
-      %{
-        id: NodeJS,
-        start:
-          {NodeJS, :start_link,
-           [
-             [
-               path: Application.app_dir(:imagine_cms, "priv/js"),
-               pool_size: Application.get_env(:imagine_cms, :nodejs_pool_size) || 1
-             ]
-           ]}
-      }
+      Imagine.Cache
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
