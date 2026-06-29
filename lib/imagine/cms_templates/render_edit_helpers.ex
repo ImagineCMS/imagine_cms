@@ -9,21 +9,45 @@ defmodule Imagine.CmsTemplates.RenderEditHelpers do
   alias Imagine.CmsTemplates.RenderViewHelpers
 
   # add shortened, @conn-free versions of all the helpers to make templates look nicer
-  defmacro text_editor(obj_name, opts \\ []) when is_binary(obj_name) do
+  defmacro text_editor(obj_name, opts \\ [])
+
+  defmacro text_editor(obj_name, opts) when is_binary(obj_name) do
     quote do
       text_editor(var!(assigns)[:conn], unquote(obj_name), unquote(opts))
     end
   end
 
-  defmacro snippet(obj_name, opts \\ []) when is_binary(obj_name) do
+  defmacro text_editor(conn, obj_name) when is_binary(obj_name) do
+    quote do
+      text_editor(unquote(conn), unquote(obj_name), [])
+    end
+  end
+
+  defmacro snippet(obj_name, opts \\ [])
+
+  defmacro snippet(obj_name, opts) when is_binary(obj_name) do
     quote do
       snippet(var!(assigns)[:conn], unquote(obj_name), unquote(opts))
     end
   end
 
-  defmacro page_list(obj_name, opts \\ []) when is_binary(obj_name) do
+  defmacro snippet(conn, obj_name) when is_binary(obj_name) do
+    quote do
+      snippet(unquote(conn), unquote(obj_name), [])
+    end
+  end
+
+  defmacro page_list(obj_name, opts \\ [])
+
+  defmacro page_list(obj_name, opts) when is_binary(obj_name) do
     quote do
       page_list(var!(assigns)[:conn], unquote(obj_name), unquote(opts))
+    end
+  end
+
+  defmacro page_list(conn, obj_name) when is_binary(obj_name) do
+    quote do
+      page_list(unquote(conn), unquote(obj_name), [])
     end
   end
 
