@@ -26,3 +26,6 @@ mix.lock
 node_modules
 /assets/semantic/dist
 .DS_Store
+
+.agents
+.claude
