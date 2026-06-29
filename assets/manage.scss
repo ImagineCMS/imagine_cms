@@ -6,6 +6,7 @@
 @media only screen and (max-width: 767px) {
   body#imagine-app {
     #content-container { min-height: 90vh; }
+
     .button-bar {
       * {
         width: 32px;
@@ -21,12 +22,18 @@
 }
 
 body#imagine-app {
-  #content-container { padding-top: 10px; min-height: 80vh; }
+  #content-container.ui.container {
+    box-sizing: border-box;
+    width: min(100%, 1440px);
+    max-width: 1440px !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    padding: 16px clamp(16px, 2vw, 32px) 0;
+    min-height: 80vh;
+  }
+
   #panel .mobile.only .menu { border-radius: 0; }
   footer.inverted.segment { border-radius: 0; }
-
-  #HW_badge_cont { height: auto; }
-  #HW_badge { top: -7px; left: 4px; }
 
   .button-bar {
     form { display: inline-block; }

@@ -25,7 +25,6 @@
 
       <div class="right menu">
         <%= if current_user = assigns[:current_user] do %>
-          <a href="" class="item hw_changelog">Updates</a>
           <a href="/" class="item">View Site</a>
 
           <div class="ui simple dropdown item">
@@ -54,7 +53,6 @@
           <%= link "Snippets", to: Routes.cms_snippet_path(@conn, :index), class: "item" %>
           <%= link "Users", to: Routes.user_path(@conn, :index), class: "item" %>
           <div class="item"></div>
-          <a href="" class="item hw_changelog">Updates</a>
           <a href="/" class="item">View Site</a>
           <div class="item"></div>
           <%= link "Account", to: Routes.account_path(@conn, :edit), class: "item" %>
@@ -73,7 +71,9 @@
       </div>
       <div class="mobile hidden" style="height: 40px;"></div>
 
-      <%= @inner_content %>
+      <main id="content-container" role="main" class="ui container">
+        <%= @inner_content %>
+      </main>
 
       <footer class="ui inverted segment">
         <div id="build-info" class="ui container">
