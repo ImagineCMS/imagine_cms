@@ -84,7 +84,7 @@ defmodule Imagine.CmsTemplates do
   def update_cms_template(%CmsTemplate{} = cms_template, attrs) do
     changeset = CmsTemplate.changeset(cms_template, attrs)
 
-    Imagine.Cache.flush()
+    Imagine.Cache.delete_all!()
 
     case CmsTemplate.test_render(changeset) do
       {:ok, _rendered_output} ->
@@ -123,7 +123,7 @@ defmodule Imagine.CmsTemplates do
   def delete_cms_template(%CmsTemplate{} = cms_template) do
     result = Repo.delete(cms_template)
 
-    Imagine.Cache.flush()
+    Imagine.Cache.delete_all!()
 
     result
   end
@@ -287,7 +287,7 @@ defmodule Imagine.CmsTemplates do
       |> CmsSnippet.changeset(attrs)
       |> Repo.update()
 
-    Imagine.Cache.flush()
+    Imagine.Cache.delete_all!()
 
     case result do
       {:ok, cms_snippet} ->
@@ -314,7 +314,7 @@ defmodule Imagine.CmsTemplates do
   def delete_cms_snippet(%CmsSnippet{} = cms_snippet) do
     result = Repo.delete(cms_snippet)
 
-    Imagine.Cache.flush()
+    Imagine.Cache.delete_all!()
 
     result
   end

@@ -62,11 +62,18 @@ defmodule ImagineWeb.CmsRendererController do
     user = conn.assigns[:current_user]
 
     key = {{"cms_page", cms_page.id}}
-    cached_result = if user, do: nil, else: Imagine.Cache.get(key)
+    cached_result = if user, do: nil, else: Imagine.Cache.get!(key)
 
     cms_page =
-      cached_result ||
-        Imagine.Cache.set(key, CmsPages.preload_objects_and_versions(cms_page))
+      case cached_result do
+        nil ->
+          page = CmsPages.preload_objects_and_versions(cms_page)
+          Imagine.Cache.put!(key, page)
+          page
+
+        page ->
+          page
+      end
 
     cms_page_version = get_requested_cms_page_version(cms_page, version)
 
@@ -81,7 +88,7 @@ defmodule ImagineWeb.CmsRendererController do
     user = conn.assigns[:current_user]
 
     key = {{"rendered_template_output", cms_page.id, cms_page_version.version}}
-    cached_result = if user, do: nil, else: Imagine.Cache.get(key)
+    cached_result = if user, do: nil, else: Imagine.Cache.get!(key)
 
     output =
       case cached_result do
@@ -95,7 +102,8 @@ defmodule ImagineWeb.CmsRendererController do
             ) || get_cms_template_content(cms_page, 0, cms_page_version.cms_template_id, nil)
 
           output = CmsTemplate.render(:view, cms_template_content, cms_page_version, conn)
-          Imagine.Cache.set(key, output)
+          Imagine.Cache.put!(key, output)
+          output
 
         _ ->
           cached_result

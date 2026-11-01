@@ -293,7 +293,7 @@ defmodule Imagine.CmsPages do
         nil
     end
 
-    Imagine.Cache.flush()
+    Imagine.Cache.delete_all!()
 
     result
   end
@@ -321,7 +321,7 @@ defmodule Imagine.CmsPages do
     from(v in CmsPageVersion, where: v.cms_page_id == ^cms_page.id)
     |> Repo.update_all(set: [discarded_at: now])
 
-    Imagine.Cache.flush()
+    Imagine.Cache.delete_all!()
 
     result
   end
@@ -335,7 +335,7 @@ defmodule Imagine.CmsPages do
     from(v in CmsPageVersion, where: v.cms_page_id == ^cms_page.id)
     |> Repo.update_all(set: [discarded_at: nil])
 
-    Imagine.Cache.flush()
+    Imagine.Cache.delete_all!()
 
     result
   end
@@ -343,7 +343,7 @@ defmodule Imagine.CmsPages do
   def destroy_cms_page(%CmsPage{} = cms_page) do
     result = Repo.delete(cms_page)
 
-    Imagine.Cache.flush()
+    Imagine.Cache.delete_all!()
 
     result
   end
