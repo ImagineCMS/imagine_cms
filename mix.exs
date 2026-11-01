@@ -68,7 +68,8 @@ defmodule Imagine.MixProject do
         "deps.get",
         "esbuild.install --if-missing",
         "sass.install --if-missing",
-        "cmd --cd assets npm ci"
+        "cmd --cd assets npm ci",
+        "cmd --cd assets npm exec -- gulp --gulpfile semantic/gulpfile.js build"
       ],
       "assets.build": [
         "assets.copy",
